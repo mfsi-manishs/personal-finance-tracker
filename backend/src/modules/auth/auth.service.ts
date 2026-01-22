@@ -5,8 +5,8 @@
 
 import bcrypt from "bcrypt";
 import { env } from "../../env.js";
-import { RefreshTokenModel } from "../../models/refreshToken.model.js";
-import { PasswordResetModel } from "../../models/passwordReset.model.js";
+import { RefreshTokenModel } from "../../models/refresh-token.model.js";
+import { PasswordResetModel } from "../../models/password-reset.model.js";
 import { UserModel, type IUser } from "../../models/user.model.js";
 import { sendMail } from "../../services/mail.service.js";
 import { generateRandomToken, hashToken } from "../../utils/crypto.utils.js";

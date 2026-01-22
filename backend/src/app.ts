@@ -4,7 +4,7 @@ import morgan from "morgan";
 import { env } from "./env.js";
 import { globalErrorHandler } from "./middlewares/error.middleware.js";
 import authRoutes from "./modules/auth/auth.route.js";
-import userRoutes from "./routes/user.route.js";
+import userRoutes from "./modules/user/user.route.js";
 import { NotFoundError } from "./utils/error.utils.js";
 import cookieParser from "cookie-parser";
 

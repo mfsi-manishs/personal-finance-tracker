@@ -4,9 +4,8 @@
  */
 
 import { z } from "zod";
+import { emailSchema, passwordSchema } from "../../schema/base.schema.js";
 
-export const emailSchema = z.email({ message: "Invalid email address" }).transform((val) => val.trim().toLowerCase());
-export const passwordSchema = z.string().trim().min(1, "Password is required");
 export const tokenSchema = z.string().trim().min(1, "Refresh Token is required");
 
 /**
