@@ -1,12 +1,13 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import { env } from "./env.js";
 import { globalErrorHandler } from "./middlewares/error.middleware.js";
 import authRoutes from "./modules/auth/auth.route.js";
+import transCategoryRoutes from "./modules/trans-category/trans-category.route.js";
 import userRoutes from "./modules/user/user.route.js";
 import { NotFoundError } from "./utils/error.utils.js";
-import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes());
 app.use("/api/users", userRoutes());
+app.use("/api/trans-categories", transCategoryRoutes());
 
 // Handle 404 errors
 app.all(/.*/, (req, _res, next) => {

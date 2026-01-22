@@ -9,7 +9,7 @@ import mongoose from "mongoose";
  * @interface IPasswordReset
  * @description Password reset interface
  */
-export interface IPasswordReset {
+export interface IPasswordReset extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
   tokenHash: string;
   expiresAt: Date;

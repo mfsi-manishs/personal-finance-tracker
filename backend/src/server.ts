@@ -2,11 +2,13 @@ import "./env.js"; // First import environment variables
 
 import app from "./app.js";
 import { MongoDB } from "./config/db.config.js";
+import { seedDefaultCategories } from "./utils/seed-defaults.utils.js";
 
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   await MongoDB.connectDB();
+  await seedDefaultCategories();
 
   const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}...`);

@@ -1,0 +1,14 @@
+export const defaultTransCategories = [
+  { name: "Clothing", type: "default", description: "Shoes, clothing, accessories" },
+  { name: "Education", type: "default", description: "Books, tuition, online classes" },
+  { name: "Entertainment", type: "default", description: "Movies, games, subscriptions" },
+  { name: "Food", type: "default", description: "Meals, groceries, snacks, dining out" },
+  { name: "Gifts", type: "default", description: "Gifts, birthday, anniversary" },
+  { name: "Health", type: "default", description: "Wellness, fitness, gym/yoga/zuumba membership" },
+  { name: "Housing", type: "default", description: "Rent, repairs, household appliances/accessories" },
+  { name: "Medical", type: "default", description: "Medical supplies, medicines, investigations, tests, fees, hospitalization" },
+  { name: "Pets", type: "default", description: "Pets, veterinary care, grooming" },
+  { name: "Travel", type: "default", description: "Tickets, hotel reservations, flights, Bus, train, fuel, taxi" },
+  { name: "Utilities", type: "default", description: "Electricity, water, gas, internet, phone" },
+  { name: "Investments", type: "default", description: "Stocks, bonds, mutual funds, savings, investments" },
+];
