@@ -20,6 +20,16 @@ export const globalErrorHandler = (err: any, _req: Request, res: Response, _next
     message = "Duplicate field value entered";
   }
 
+  // Handle invalid JSON parsing errors
+  if (err.type === "entity.parse.failed") {
+    res.status(400).json({
+      status: "fail",
+      error: "Invalid JSON payload",
+      details: err.message,
+    });
+    return;
+  }
+
   // Handle Zod Request Data Validation Errors
   if (err instanceof z.ZodError) {
     const { fieldErrors, formErrors } = z.flattenError(err);

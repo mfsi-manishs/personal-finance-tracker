@@ -6,6 +6,7 @@ import { globalErrorHandler } from "./middlewares/error.middleware.js";
 import authRoutes from "./modules/auth/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import { NotFoundError } from "./utils/error.utils.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.use(morgan(":date[iso] :method :url :status - :response-time ms"));
 app.use(express.json());
 
 // Other specific middleware (CORS, logging, etc.)
-// app.use(cookieParser(env.cookieSecret));
+app.use(cookieParser(env.cookieSecret));
 
 // Register routes
 app.get("/", (req, res) => {

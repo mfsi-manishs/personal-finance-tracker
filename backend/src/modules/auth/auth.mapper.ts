@@ -4,7 +4,7 @@
  */
 
 import type { IUser } from "../../models/user.model.js";
-import type { LoginResponseDTO, RegisterResponseDTO } from "./auth.types.js";
+import type { LoginResponseDTO, RefreshTokenResponseDTO, RegisterResponseDTO } from "./auth.types.js";
 
 /**
  * Maps a user to a register response
@@ -43,3 +43,10 @@ export const toLoginResponseDTO = (user: IUser, token: string): LoginResponseDTO
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
 });
+
+/**
+ * Maps an access token to a refresh token response
+ * @param {string} token - Access token to map
+ * @returns {RefreshTokenResponseDTO} Mapped access token
+ */
+export const toRefreshTokenResponseDTO = (token: string): RefreshTokenResponseDTO => ({ token: token });

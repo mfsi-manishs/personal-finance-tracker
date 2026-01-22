@@ -6,7 +6,7 @@
 import { Router } from "express";
 import { validateRequest } from "../../middlewares/validate.middleware.js";
 import { AuthController } from "./auth.controller.js";
-import { loginSchema, registerSchema } from "./auth.schema.js";
+import { forgotPasswordSchema, loginSchema, refreshTokenSchema, registerSchema, resetPasswordSchema } from "./auth.schema.js";
 
 /**
  * Registers a new user and logs in an existing user
@@ -17,6 +17,10 @@ export default function authRoutes() {
 
   router.post("/register", validateRequest({ body: registerSchema }), AuthController.register);
   router.post("/login", validateRequest({ body: loginSchema }), AuthController.login);
+  router.post("/refresh-token", validateRequest({ cookies: refreshTokenSchema }), AuthController.refreshToken);
+  router.post("/forgot-password", validateRequest({ body: forgotPasswordSchema }), AuthController.forgotPassword);
+  router.post("/reset-password", validateRequest({ body: resetPasswordSchema }), AuthController.resetPassword);
+  router.post("/logout", AuthController.logout);
 
   return router;
 }

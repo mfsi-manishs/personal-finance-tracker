@@ -8,16 +8,6 @@ import { Types } from "mongoose";
 import type { UserRole } from "../../models/user.model.js";
 
 /**
- * @interface RegisterRequestDTO
- * @description Register request body
- */
-export interface RegisterRequestDTO {
-  name: string;
-  email: string;
-  password: string;
-}
-
-/**
  * @interface RegisterResponseDTO
  * @description Register response returned to client
  */
@@ -29,15 +19,6 @@ export interface RegisterResponseDTO {
   isEmailVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
-}
-
-/**
- * @interface LoginRequestDTO
- * @description Login request body
- */
-export interface LoginRequestDTO {
-  email: string;
-  password: string;
 }
 
 /**
@@ -59,11 +40,11 @@ export interface LoginResponseDTO {
 }
 
 /**
- * @interface AuthResponseDTO
- * @description Auth response returned to client
+ * @interface RefreshTokenResponseDTO
+ * @description Refresh token response returned to client
  */
-export interface AuthResponseDTO {
-  accessToken: string;
+export interface RefreshTokenResponseDTO {
+  token: string;
 }
 
 /**

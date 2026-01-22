@@ -14,7 +14,6 @@ export interface IRefreshToken extends Document {
   tokenHash: string;
   ipAddress: string;
   userAgent: string;
-  isRevoked: boolean;
   expiresAt: Date;
   createdAt: Date;
 }
@@ -38,15 +37,10 @@ const refreshTokenSchema = new Schema<IRefreshToken>(
     ipAddress: {
       type: String,
       required: true,
-      match: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
     },
     userAgent: {
       type: String,
       required: true,
-    },
-    isRevoked: {
-      type: Boolean,
-      default: false,
     },
     expiresAt: {
       type: Date,
