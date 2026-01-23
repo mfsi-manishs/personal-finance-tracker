@@ -24,6 +24,7 @@ export interface IUser extends Document {
   lastLoginAt: Date;
   loginAttempts: number;
   lockUntil: Date;
+  preferredCurrency: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -73,6 +74,13 @@ const userSchema = new Schema<IUser>(
     lockUntil: {
       type: Date,
       default: null,
+    },
+    preferredCurrency: {
+      type: String,
+      required: true,
+      default: "INR",
+      uppercase: true,
+      length: 3,
     },
   },
   { timestamps: true }

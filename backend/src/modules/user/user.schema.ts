@@ -4,7 +4,7 @@
  */
 
 import { z } from "zod";
-import { emailSchema, nameSchema } from "../../schema/base.schema.js";
+import { currencySchema, emailSchema, nameSchema } from "../../schema/base.schema.js";
 
 /**
  * @constant userByIdSchema
@@ -29,6 +29,7 @@ export type UserByEmailInput = z.infer<typeof userByEmailSchema>;
 export const updateUserSchema = z.object({
   name: nameSchema.optional(),
   email: emailSchema.optional(),
+  preferredCurrency: currencySchema.optional(),
 });
 
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;

@@ -17,6 +17,7 @@ export interface RegisterResponseDTO {
   email: string;
   role: UserRole;
   isEmailVerified: boolean;
+  preferredCurrency: string;
   createdAt: Date;
   updatedAt: Date;
 }

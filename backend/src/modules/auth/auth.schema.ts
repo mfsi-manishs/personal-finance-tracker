@@ -4,7 +4,7 @@
  */
 
 import { z } from "zod";
-import { emailSchema, passwordSchema } from "../../schema/base.schema.js";
+import { currencySchema, emailSchema, passwordSchema } from "../../schema/base.schema.js";
 
 export const tokenSchema = z.string().trim().min(1, "Refresh Token is required");
 
@@ -21,6 +21,7 @@ export const registerSchema = z.object({
     .regex(/^[\p{L}\p{M}]+([ '.\-][\p{L}\p{M}]+)*$/u, "Name can only contain unicode letters, spaces, dots, hyphens and apostrophes"),
   email: emailSchema,
   password: passwordSchema,
+  preferredCurrency: currencySchema.optional(),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

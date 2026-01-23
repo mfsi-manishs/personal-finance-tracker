@@ -16,6 +16,7 @@ export const toRegisterResponseDTO = (user: IUser): RegisterResponseDTO => ({
   name: user.name,
   email: user.email,
   role: user.role,
+  preferredCurrency: user.preferredCurrency,
   isEmailVerified: user.isEmailVerified,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,

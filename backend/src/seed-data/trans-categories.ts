@@ -7,8 +7,12 @@ export const defaultTransCategories = [
   { name: "Health", type: "default", description: "Wellness, fitness, gym/yoga/zuumba membership" },
   { name: "Housing", type: "default", description: "Rent, repairs, household appliances/accessories" },
   { name: "Medical", type: "default", description: "Medical supplies, medicines, investigations, tests, fees, hospitalization" },
+  { name: "Other", type: "default", description: "Miscellaneous expenses" },
+  { name: "Personal Care", type: "default", description: "Haircut, nails, beauty services, skincare, massage" },
   { name: "Pets", type: "default", description: "Pets, veterinary care, grooming" },
   { name: "Travel", type: "default", description: "Tickets, hotel reservations, flights, Bus, train, fuel, taxi" },
   { name: "Utilities", type: "default", description: "Electricity, water, gas, internet, phone" },
   { name: "Investments", type: "default", description: "Stocks, bonds, mutual funds, savings, investments" },
+  { name: "Salary", type: "default", description: "Salary" },
+  { name: "Other Income", type: "default", description: "Other sources of income" },
 ];

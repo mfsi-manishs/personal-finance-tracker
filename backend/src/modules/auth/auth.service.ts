@@ -32,14 +32,14 @@ export class AuthService {
    * @returns {Promise<IUser>} A promise containing the newly created user
    * @description This function registers a new user and returns the newly created user
    */
-  static async register({ name, email, password }: RegisterInput): Promise<IUser> {
-    const existingEmail = await UserModel.findOne({ email: email });
+  static async register(input: RegisterInput): Promise<IUser> {
+    const existingEmail = await UserModel.findOne({ email: input.email });
     if (existingEmail) {
       throw new ConflictError("Email is already registered");
     }
-    const passwordHash = await bcrypt.hash(password, AuthService.SALT_ROUNDS);
+    const passwordHash = await bcrypt.hash(input.password, AuthService.SALT_ROUNDS);
 
-    return UserModel.create({ name, email, passwordHash });
+    return UserModel.create({ ...input, passwordHash } as Partial<IUser>);
   }
 
   /**
