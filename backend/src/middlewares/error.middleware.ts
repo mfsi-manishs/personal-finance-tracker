@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { env } from "../env.js";
 import { z } from "zod";
+import { MongoError } from "mongodb";
 
 /**
  * Global error handler middleware
@@ -15,9 +16,17 @@ export const globalErrorHandler = (err: any, _req: Request, res: Response, _next
   let message = err.message || "Internal Server Error";
 
   // Handle Mongoose Duplicate Key Error (Mongo Code 11000)
-  if (err.code === 11000) {
+  if (err instanceof MongoError) {
     statusCode = 409;
-    message = "Duplicate field value entered";
+    switch (err.code) {
+      case 11000:
+        const n = err.errmsg.indexOf("dup key: {");
+        message = `Item already exists. ${err.errmsg.substring(n < 0 ? 0 : n)}`;
+        break;
+      default:
+        message = err.errmsg;
+        break;
+    }
   }
 
   // Handle invalid JSON parsing errors

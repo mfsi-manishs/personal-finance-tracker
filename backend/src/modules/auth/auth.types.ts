@@ -33,6 +33,7 @@ export interface LoginResponseDTO {
   role: UserRole;
   token: string;
   isEmailVerified: boolean;
+  preferredCurrency: string;
   lastLoginAt: Date;
   loginAttempts: number;
   lockUntil: Date;

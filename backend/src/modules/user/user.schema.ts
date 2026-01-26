@@ -4,13 +4,13 @@
  */
 
 import { z } from "zod";
-import { currencySchema, emailSchema, nameSchema } from "../../schema/base.schema.js";
+import { currencySchema, emailSchema, idSchema, nameSchema } from "../../schema/base.schema.js";
 
 /**
  * @constant userByIdSchema
  * @description User by id schema
  */
-export const userByIdSchema = z.object({ id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid ObjectId") });
+export const userByIdSchema = z.object({ id: idSchema });
 
 export type UserByIdInput = z.infer<typeof userByIdSchema>;
 

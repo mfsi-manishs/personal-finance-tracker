@@ -26,8 +26,9 @@ export class UserController {
    * @throws {NotFound} If the user is not found
    * @description This function retrieves a user by ID from the database
    */
-  static async getUserById(req: Request<UserByIdInput>, res: Response) {
-    const user = await UserService.getUserById(req.params);
+  static async getUserById(req: Request, res: Response) {
+    const params = req.params as unknown as UserByIdInput;
+    const user = await UserService.getUserById(params);
     res.status(200).json(user);
   }
 
@@ -51,8 +52,10 @@ export class UserController {
    * @returns {Promise<Response>} A promise containing the response object
    * @description This function updates a user by ID in the database
    */
-  static async updateUserById(req: Request<UserByIdInput, {}, UpdateUserInput>, res: Response) {
-    const user = await UserService.updateUserById(req.params, req.body);
+  static async updateUserById(req: Request, res: Response) {
+    const params = req.params as unknown as UserByIdInput;
+    const body = req.body as UpdateUserInput;
+    const user = await UserService.updateUserById(params, body);
     res.status(200).json(user);
   }
 }

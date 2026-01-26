@@ -38,6 +38,7 @@ export const toLoginResponseDTO = (user: IUser, token: string): LoginResponseDTO
   role: user.role,
   token,
   isEmailVerified: user.isEmailVerified,
+  preferredCurrency: user.preferredCurrency,
   lastLoginAt: user.lastLoginAt,
   loginAttempts: user.loginAttempts,
   lockUntil: user.lockUntil,

@@ -20,7 +20,7 @@ export class TransCategoryController {
    * @description This function creates a new transaction category and returns a response containing the newly created transaction category
    */
   static async createTransCategory(req: Request<{}, {}, CreateTransCategoryInput>, res: Response) {
-    const newTransCategory = await TransCategoryService.create(req.user.id, req.body);
+    const newTransCategory = await TransCategoryService.create(req.user!.id, req.body);
     res.status(201).json(newTransCategory);
   }
 
@@ -32,7 +32,7 @@ export class TransCategoryController {
    * @description This function retrieves all transaction categories associated with the user and returns a response containing the transaction categories
    */
   static async list(req: Request, res: Response) {
-    const categories = await TransCategoryService.list(req.user.id);
+    const categories = await TransCategoryService.list(req.user!.id);
     return res.json(categories);
   }
 }

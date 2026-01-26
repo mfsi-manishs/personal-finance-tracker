@@ -24,9 +24,13 @@ interface RequestSchemas {
  * @returns {Promise<void>} - A promise that resolves when the validation is successful
  */
 export const validateRequest = (schemas: RequestSchemas) => async (req: Request, _res: Response, next: NextFunction) => {
-  if (schemas.params) await schemas.params.parseAsync(req.params);
-  if (schemas.query) await schemas.query.parseAsync(req.query);
-  if (schemas.body) await schemas.body.parseAsync(req.body);
-  if (schemas.cookies) await schemas.cookies.parseAsync(req.cookies);
-  next();
+  try {
+    if (schemas.params) await schemas.params.parseAsync(req.params);
+    if (schemas.query) await schemas.query.parseAsync(req.query);
+    if (schemas.body) await schemas.body.parseAsync(req.body);
+    if (schemas.cookies) await schemas.cookies.parseAsync(req.cookies);
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
