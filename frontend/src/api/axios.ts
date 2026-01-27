@@ -4,10 +4,9 @@
  */
 
 import axios from "axios";
-import { clearToken, setToken } from "../store/auth-slice.store";
+import { useAuth } from "../api/auth";
+import { clearToken } from "../store/auth-slice.store";
 import { store } from "../store/store";
-
-console.log(import.meta.env);
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL, // backend
@@ -31,9 +30,8 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && originalRequest.url !== "/auth/login" && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const res = await api.post("/auth/refresh-token"); // backend uses cookie
-        store.dispatch(setToken(res.data.token));
-        originalRequest.headers.Authorization = `Bearer ${res.data.token}`;
+        const token = await useAuth().refreshToken();
+        originalRequest.headers.Authorization = `Bearer ${token}`;
         return api(originalRequest);
       } catch (err) {
         store.dispatch(clearToken());
