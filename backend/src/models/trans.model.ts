@@ -68,6 +68,21 @@ const transactionSchema = new mongoose.Schema<ITransaction>(
   { timestamps: true }
 );
 
+transactionSchema.set("toJSON", {
+  virtuals: true,
+  transform: (_doc, ret: any) => {
+    if (ret.transCategoryId) {
+      ret.transCategory = ret.transCategoryId;
+      delete ret.transCategoryId;
+    }
+    delete ret._id;
+    delete ret.createdAt;
+    delete ret.userId;
+    delete ret.__v;
+    return ret;
+  },
+});
+
 transactionSchema.index({ userId: 1, date: 1 });
 
 /**

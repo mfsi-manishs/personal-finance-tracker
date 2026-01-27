@@ -45,7 +45,7 @@ export class TransService {
       if (endDate) query.date.$lte = endDate;
     }
 
-    return TransactionModel.find(query).sort({ date: -1 });
+    return TransactionModel.find(query).sort({ date: -1 }).populate("transCategoryId", "name description type id");
   }
 
   /**
