@@ -51,4 +51,4 @@ export const toLoginResponseDTO = (user: IUser, token: string): LoginResponseDTO
  * @param {string} token - Access token to map
  * @returns {RefreshTokenResponseDTO} Mapped access token
  */
-export const toRefreshTokenResponseDTO = (token: string): RefreshTokenResponseDTO => ({ token: token });
+export const toRefreshTokenResponseDTO = (user: IUser, token: string): RefreshTokenResponseDTO => toLoginResponseDTO(user, token);

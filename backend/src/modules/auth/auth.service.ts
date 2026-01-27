@@ -99,7 +99,7 @@ export class AuthService {
    * Refreshes an access token with a new one
    * @param {RefreshTokenInput} input - Refresh token input
    * @throws {UnauthorizedError} If refresh token is invalid
-   * @returns {Promise<{accessToken: string, refreshToken: string}>} A promise containing the new access token and refresh token
+   * @returns {Promise<{accessToken: string, refreshToken: string, user: IUser}>} A promise containing the new access token, refresh token, and user
    * @description This function refreshes an access token with a new one and returns the new access token and refresh token
    */
   static async refreshToken({ refreshToken, userAgent, ipAddress }: RefreshTokenInput) {
@@ -125,7 +125,7 @@ export class AuthService {
       ipAddress,
     });
 
-    return { accessToken, refreshToken: newRefreshToken };
+    return { accessToken, refreshToken: newRefreshToken, user };
   }
 
   /**

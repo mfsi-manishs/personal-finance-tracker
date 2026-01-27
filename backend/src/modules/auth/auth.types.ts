@@ -45,9 +45,7 @@ export interface LoginResponseDTO {
  * @interface RefreshTokenResponseDTO
  * @description Refresh token response returned to client
  */
-export interface RefreshTokenResponseDTO {
-  token: string;
-}
+export interface RefreshTokenResponseDTO extends LoginResponseDTO {}
 
 /**
  * @interface AuthTokens

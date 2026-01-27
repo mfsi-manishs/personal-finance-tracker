@@ -57,7 +57,7 @@ export class AuthController {
   static async refreshToken(req: Request, res: Response) {
     const ua = req.headers["user-agent"] as string;
     const ip = req.ip as string;
-    const { accessToken, refreshToken } = await AuthService.refreshToken({
+    const { accessToken, refreshToken, user } = await AuthService.refreshToken({
       refreshToken: req.cookies.refreshToken,
       userAgent: ua,
       ipAddress: ip,
@@ -68,7 +68,7 @@ export class AuthController {
         secure: env.nodeEnv === "production",
         sameSite: "strict",
       })
-      .json(toRefreshTokenResponseDTO(accessToken));
+      .json(toRefreshTokenResponseDTO(user, accessToken));
   }
 
   /**
