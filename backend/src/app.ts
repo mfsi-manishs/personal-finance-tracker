@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -6,9 +7,9 @@ import { env } from "./env.js";
 import { globalErrorHandler } from "./middlewares/error.middleware.js";
 import authRoutes from "./modules/auth/auth.route.js";
 import transCategoryRoutes from "./modules/trans-category/trans-category.route.js";
+import transRoutes from "./modules/trans/trans.route.js";
 import userRoutes from "./modules/user/user.route.js";
 import { NotFoundError } from "./utils/error.utils.js";
-import transRoutes from "./modules/trans/trans.route.js";
 
 const app = express();
 
@@ -39,6 +40,13 @@ app.use(express.json());
 
 // Other specific middleware (CORS, logging, etc.)
 app.use(cookieParser(env.cookieSecret));
+
+app.use(
+  cors({
+    origin: env.frontendUrl, // frontend server
+    credentials: true, // allow cookies
+  })
+);
 
 // Register routes
 app.get("/", (req, res) => {
