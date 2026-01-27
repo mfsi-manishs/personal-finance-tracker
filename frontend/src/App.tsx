@@ -4,10 +4,12 @@
  */
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { DashboardLayout } from "./components/common/dashboard-layout.component";
 import { LoadingOverlay } from "./components/common/loading-overlay.component";
 import { ErrorBoundary } from "./components/error-boundary.components";
 import LoginForm from "./components/login-form.component";
 import ProtectedRoute from "./components/protected-route.component";
+import { SIDE_NAVBAR_ITEMS } from "./constants/side-navbar-items.constant";
 import { useAuthCheck } from "./hooks/use-auth-check.hook";
 import Dashboard from "./pages/dashboard";
 
@@ -25,15 +27,20 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
 
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
               <ErrorBoundary>
-                <Dashboard />
+                <DashboardLayout menuItems={SIDE_NAVBAR_ITEMS} />
               </ErrorBoundary>
             </ProtectedRoute>
-          }
-        />
+          }>
+          {/* All pages inside here will have the Sidebar and Navbar */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/transactions" element={<Transactions />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/profile" element={<Profile />} /> */}
+        </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
