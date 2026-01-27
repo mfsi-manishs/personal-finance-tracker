@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../api/auth";
 import { useState } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /**
  * @type LoginFormValues
@@ -29,6 +30,9 @@ type LoginFormValues = {
  */
 export default function LoginForm() {
   const [formError, setFormError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const {
     register,
@@ -42,6 +46,7 @@ export default function LoginForm() {
     try {
       setFormError(null);
       await login(data.email, data.password);
+      navigate(from, { replace: true }); // navigate to the previous page
     } catch (err: unknown) {
       // Axios error handling
       if (axios.isAxiosError(err) && err.response) {

@@ -6,6 +6,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import api from "../api/axios";
 import { clearToken, setToken } from "../store/auth-slice.store";
+import { setUser, clearUser } from "../store/user-slice.store";
 import { type RootState } from "../store/store";
 
 /**
@@ -21,6 +22,16 @@ export function useAuth() {
   const login = async (email: string, password: string) => {
     const res = await api.post("/auth/login", { email, password });
     dispatch(setToken(res.data.token));
+    dispatch(
+      setUser({
+        id: res.data.id as string,
+        name: res.data.name,
+        email: res.data.email,
+        role: res.data.role,
+        lastLoginAt: res.data.lastLoginAt,
+        preferredCurrency: res.data.preferredCurrency,
+      })
+    );
   };
 
   const logout = async () => {
@@ -28,6 +39,7 @@ export function useAuth() {
       await api.post("/auth/logout");
     } finally {
       dispatch(clearToken());
+      dispatch(clearUser());
     }
   };
 

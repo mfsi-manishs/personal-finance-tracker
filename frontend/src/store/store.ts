@@ -5,6 +5,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth-slice.store";
+import userReducer from "./user-slice.store";
 
 /**
  * @constant store
@@ -13,6 +14,7 @@ import authReducer from "./auth-slice.store";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    user: userReducer,
   },
 });
 

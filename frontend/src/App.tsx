@@ -3,25 +3,36 @@
  * @fileoverview This file contains the app
  */
 
-import { useSelector } from "react-redux";
-import LoginForm from "./components/login-form.component";
-import Dashboard from "./pages/dashboard";
-import { type RootState } from "./store/store";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ErrorBoundary } from "./components/error-boundary.components";
+import LoginForm from "./components/login-form.component";
+import ProtectedRoute from "./components/protected-route.component";
+import Dashboard from "./pages/dashboard";
 
 /**
  * Renders the login form if there is no token or the dashboard if there is a token.
  * @returns {JSX.Element} The rendered component
  */
 function App() {
-  const token = useSelector((state: RootState) => state.auth.token);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
 
-  return token ? (
-    <ErrorBoundary>
-      <Dashboard />
-    </ErrorBoundary>
-  ) : (
-    <LoginForm />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <ErrorBoundary>
+                <Dashboard />
+              </ErrorBoundary>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
