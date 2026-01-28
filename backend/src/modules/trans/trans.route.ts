@@ -26,6 +26,7 @@ export default function transRoutes() {
   const router = Router();
 
   router.post("/", authenticate, validateRequest({ body: transactionSchema }), TransController.create);
+  router.get("/all", authenticate, TransController.list);
   router.get("/list-by-date-range", authenticate, validateRequest({ query: listTransByDateRangeSchema }), TransController.listByDateRange);
   router.get("/list-by-time-unit", authenticate, validateRequest({ query: listTransByLastNUnitsSchema }), TransController.listByLastNUnits);
   router.get(

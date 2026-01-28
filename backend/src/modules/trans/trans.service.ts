@@ -28,6 +28,16 @@ export class TransService {
   }
 
   /**
+   * Retrieves all transactions associated with the user
+   * @param {string} userId - Id of the user
+   * @returns {Promise<ITransaction[]>} A promise containing the retrieved transactions
+   * @description This function retrieves all transactions associated with the user and returns a promise containing the retrieved transactions
+   */
+  static async list(userId: string) {
+    return TransactionModel.find({ userId }).sort({ date: -1 }).populate("transCategoryId", "name description type id");
+  }
+
+  /**
    * Retrieves all transactions associated with the user in the given date range
    * @param {string} userId - Id of the user
    * @param {Date} startDate - Start date of the range (inclusive)

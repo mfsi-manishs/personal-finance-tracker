@@ -25,6 +25,18 @@ export class TransController {
   }
 
   /**
+   * Retrieves all transactions associated with the user
+   * @param {Request} req - Express request object
+   * @param {Response} res - Express response object
+   * @returns {Promise<Response>} A promise containing the response object
+   * @description This function retrieves all transactions associated with the user and returns a promise containing the response object
+   */
+  static async list(req: Request, res: Response) {
+    const transactions = await TransService.list(req.user!.id);
+    res.status(200).json(transactions);
+  }
+
+  /**
    * Retrieves all transactions associated with the user in the given date range
    * @param {Request<{}, {}, {}, ListTransByDateRangeInput>} req - Express request object
    * @param {Response} res - Express response object
