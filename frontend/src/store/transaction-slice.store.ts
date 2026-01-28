@@ -5,6 +5,7 @@
 
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
+import type { RootState } from "./store";
 
 /**
  * @interface Transaction
@@ -93,6 +94,6 @@ const transactionSlice = createSlice({
  * @const selectAllTransactions
  * @description Selects all transactions
  */
-export const { selectAll: selectAllTransactions } = transactionsAdapter.getSelectors((state: any) => state.transactions);
+export const { selectAll: selectAllTransactions } = transactionsAdapter.getSelectors((state: RootState) => state.transactions);
 
 export default transactionSlice.reducer;

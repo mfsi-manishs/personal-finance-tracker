@@ -6,6 +6,19 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 /**
+ * @interface ConfirmDialogProps
+ * @description Props for ConfirmDialog
+ */
+export interface ConfirmDialogProps {
+  open: boolean;
+  title: string;
+  text: string;
+  confirmBtnText: string;
+  onClose: () => void;
+  onConfirm: () => void;
+}
+
+/**
  * Confirm dialog component
  *
  * @description This component renders a confirm dialog with a
@@ -23,7 +36,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
  *
  * @returns {JSX.Element} The rendered component
  */
-export default function ConfirmDialog({ open, title, text, confirmBtnText, onClose, onConfirm }: any) {
+export default function ConfirmDialog({ open, title, text, confirmBtnText, onClose, onConfirm }: ConfirmDialogProps) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>

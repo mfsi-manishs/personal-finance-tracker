@@ -6,8 +6,24 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useAppDispatch } from "../hooks/use-app-dispatch.hook";
-import { createTransaction, editTransaction } from "../store/transaction-slice.store";
+import { createTransaction, editTransaction, type Transaction } from "../store/transaction-slice.store";
 import { AppUtils } from "../utils/app.util";
+
+/**
+ * @interface TransactionModalProps
+ * @description Transaction modal props
+ */
+export interface TransactionModalProps {
+  open: boolean;
+  onClose: () => void;
+  initialData: Transaction | null;
+}
+
+/**
+ * @interface TransactionFormData
+ * @description Transaction form data
+ */
+type TransactionFormData = Transaction;
 
 /**
  * Transaction Modal dialog component
@@ -20,7 +36,7 @@ import { AppUtils } from "../utils/app.util";
  *
  * @returns {JSX.Element} The rendered component
  */
-export default function TransactionModal({ open, onClose, initialData }: any) {
+export default function TransactionModal({ open, onClose, initialData }: TransactionModalProps) {
   const dispatch = useAppDispatch();
   const { control, handleSubmit } = useForm({
     values: initialData
@@ -35,8 +51,8 @@ export default function TransactionModal({ open, onClose, initialData }: any) {
    * After the store has been updated, it will call the onClose function to close the modal.
    * @param {object} formData - The form data to be submitted
    */
-  const onSubmit = (formData: any) => {
-    const sanitizedData = { ...formData, amount: Number(formData.amount), date: formData.date ? new Date(formData.date).toISOString() : null };
+  const onSubmit = (formData: TransactionFormData) => {
+    const sanitizedData = { ...formData, amount: Number(formData.amount), date: formData.date ? new Date(formData.date).toISOString() : "" };
     if (initialData) {
       // Update existing
       dispatch(editTransaction({ ...initialData, ...sanitizedData }));
