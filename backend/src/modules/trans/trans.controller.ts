@@ -76,6 +76,16 @@ export class TransController {
   }
 
   /**
+   * Retrieves the financial summary of the user
+   * @description This function retrieves the financial summary of the user and returns a promise containing the response object
+   * @returns {Promise<Response>} A promise containing the response object
+   */
+  static async getTransactionSummary(req: Request, res: Response) {
+    const summary = await TransService.getTransactionSummary(req.user!.id);
+    res.status(200).json(summary);
+  }
+
+  /**
    * Deletes a transaction by ID from the database
    * @param {Request<UpdateTransParamsInput>} req - Express request object
    * @param {Response} res - Express response object

@@ -268,4 +268,54 @@ export class TransService {
     const { start, end } = Utils.getDateRange("month", lastNMonths);
     return TransService.getMonthCategorySummaryByDateRange(userId, start, end);
   }
+
+  /**
+   * Retrieves the financial summary of the user for the given date range
+   * @param {string} userId - Id of the user
+   * @param {Date} startDate - Start date of the range (inclusive)
+   * @param {Date} endDate - End date of the range (inclusive)
+   * @returns {Promise<{ totalIncome: number, totalExpenses: number, remainingBalance: number, currency: string }>} A promise containing the financial summary
+   * @description This function retrieves the financial summary of the user for the given date range and returns a promise containing the financial summary
+   */
+  static async getTransactionSummary(userId: string, startDate?: Date, endDate?: Date) {
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    // Build the match criteria dynamically
+    const matchCriteria: any = { userId: userObjectId };
+
+    if (startDate || endDate) {
+      matchCriteria.date = {};
+      if (startDate) matchCriteria.date.$gte = startDate;
+      if (endDate) matchCriteria.date.$lte = endDate;
+    }
+
+    const summary = await TransactionModel.aggregate([
+      // 1: Filter by user ID and date range
+      { $match: matchCriteria },
+
+      // 2: Group by type and calculate totals
+      {
+        $group: {
+          _id: { type: "$type", currency: "$currency" },
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    // Process the results into an object
+    let totalIncome = 0;
+    let totalExpenses = 0;
+
+    summary.forEach((item) => {
+      if (item._id.type === "income") {
+        totalIncome = item.totalAmount;
+      } else if (item._id.type === "expense") {
+        totalExpenses = item.totalAmount;
+      }
+    });
+
+    const currentBal = totalIncome - totalExpenses;
+
+    return { totalIncome, totalExpenses, currentBalance: currentBal, currency: summary[0]?._id.currency };
+  }
 }

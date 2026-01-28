@@ -47,6 +47,7 @@ export default function transRoutes() {
     validateRequest({ query: listTransByLastNMonthsSchema }),
     TransController.getMonthlyCategorySummaryForLastNMonths
   );
+  router.get("/trans-summary", authenticate, TransController.getTransactionSummary);
   router.delete("/:id", authenticate, validateRequest({ params: updateTransParamsSchema }), TransController.delete);
   router.patch("/:id", authenticate, validateRequest({ params: updateTransParamsSchema, body: updateTransBodySchema }), TransController.update);
 
