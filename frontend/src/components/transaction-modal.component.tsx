@@ -5,6 +5,7 @@
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
 import { selectAllCategories } from "../store/transaction-category-slice.store";
 import { createTransaction, editTransaction, type Transaction } from "../store/transaction-slice.store";
@@ -47,9 +48,13 @@ export interface TransactionFormData {
  * @returns {JSX.Element} The rendered component
  */
 export default function TransactionModal({ open, onClose, initialData }: TransactionModalProps) {
+  const { t } = useTranslation();
+
   const preferredCurrency = useAppSelector(selectPreferredCurrency);
   const transCategories = useAppSelector(selectAllCategories);
+
   const dispatch = useAppDispatch();
+
   const { control, handleSubmit } = useForm({
     values: initialData
       ? {
@@ -90,34 +95,48 @@ export default function TransactionModal({ open, onClose, initialData }: Transac
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle>{initialData ? "Edit Transaction" : "Add Transaction"}</DialogTitle>
+      <DialogTitle>{initialData ? t("transModal.editTrans") : t("transModal.addTrans")}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
-          <Controller name="amount" control={control} render={({ field }) => <TextField {...field} label="Amount" type="number" fullWidth />} />
-          <Controller name="currency" control={control} render={({ field }) => <TextField {...field} label="Currency" disabled fullWidth />} />
+          <Controller
+            name="amount"
+            control={control}
+            render={({ field }) => <TextField {...field} label={t("common.amount")} type="number" fullWidth />}
+          />
+          <Controller
+            name="currency"
+            control={control}
+            render={({ field }) => <TextField {...field} label={t("common.currency")} disabled fullWidth />}
+          />
           <Controller
             name="type"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="Type" select fullWidth>
-                <MenuItem value="income">Income</MenuItem>
-                <MenuItem value="expense">Expense</MenuItem>
+              <TextField {...field} label={t("common.type")} select fullWidth>
+                <MenuItem value="income">{t("common.income")}</MenuItem>
+                <MenuItem value="expense">{t("common.expense")}</MenuItem>
               </TextField>
             )}
           />
-          <Controller name="description" control={control} render={({ field }) => <TextField {...field} label="Description" fullWidth />} />
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => <TextField {...field} label={t("common.description")} fullWidth />}
+          />
           <Controller
             name="date"
             control={control}
-            render={({ field }) => <TextField {...field} label="Date" type="datetime-local" fullWidth InputLabelProps={{ shrink: true }} />}
+            render={({ field }) => (
+              <TextField {...field} label={t("common.date")} type="datetime-local" fullWidth InputLabelProps={{ shrink: true }} />
+            )}
           />
-          <TransactionCategorySelect name="transCategoryId" control={control} />
+          <TransactionCategorySelect name="transCategoryId" control={control} label={t("common.category")} />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>{t("common.cancel")}</Button>
         <Button onClick={handleSubmit(onSubmit)} variant="contained">
-          Save
+          {t("common.save")}
         </Button>
       </DialogActions>
     </Dialog>

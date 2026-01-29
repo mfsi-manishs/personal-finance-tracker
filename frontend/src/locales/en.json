@@ -1,0 +1,46 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "category": "Category",
+    "amount": "Amount",
+    "currency": "Currency",
+    "type": "Type",
+    "date": "Date",
+    "description": "Description",
+    "income": "Income",
+    "expense": "Expense",
+    "actions": "Actions"
+  },
+  "topNav": {
+    "title": "Finance Tracker",
+    "welcome": "Welcome",
+    "lastLogin": "Last Login",
+    "logout": "Logout"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "categories": "Categories",
+    "reports": "Reports",
+    "profile": "Profile"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register",
+    "error": "Invalid email or password"
+  },
+  "transModal": {
+    "editTrans": "Edit Transaction",
+    "addTrans": "Add Transaction"
+  },
+  "dashboard": {
+    "totalIncome": "Total Income",
+    "totalExpense": "Total Expense",
+    "currentBalance": "Current Balance"
+  }
+}

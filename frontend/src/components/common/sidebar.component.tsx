@@ -5,6 +5,7 @@
 
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
 import { type ReactElement } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /**
@@ -47,6 +48,7 @@ interface SidebarProps {
  * @returns {JSX.Element} Sidebar component
  */
 export const Sidebar = ({ items, mobileOpen, width, handleDrawerToggle }: SidebarProps) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -75,7 +77,7 @@ export const Sidebar = ({ items, mobileOpen, width, handleDrawerToggle }: Sideba
                   },
                 }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
+                <ListItemText primary={t(item.label)} />
               </ListItemButton>
             </ListItem>
           );

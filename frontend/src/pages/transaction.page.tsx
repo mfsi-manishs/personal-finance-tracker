@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import ConfirmDialog from "../components/common/confirm-dialog.component"; // Custom confirm component
 import TransactionModal from "../components/transaction-modal.component";
@@ -21,6 +22,8 @@ import { deleteTransaction, fetchTransactions, selectAllTransactions, type Trans
  * @returns {JSX.Element} The rendered component
  */
 export default function TransactionsPage() {
+  const { t } = useTranslation();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
@@ -29,21 +32,21 @@ export default function TransactionsPage() {
   const rows = useSelector(selectAllTransactions);
 
   const columns: GridColDef<Transaction>[] = [
-    { field: "date", headerName: "Date", width: 120 },
-    { field: "description", headerName: "Description", flex: 1 },
-    { field: "transCategory.name", headerName: "Category", width: 150 },
+    { field: "date", headerName: t("common.date"), width: 120 },
+    { field: "description", headerName: t("common.description"), flex: 1 },
+    { field: "transCategory.name", headerName: t("common.category"), width: 150 },
     {
       field: "amount",
-      headerName: "Amount",
+      headerName: t("common.amount"),
       headerAlign: "right",
       width: 130,
       align: "right",
       renderCell: (params) => `${params.row.currency}${(params.value! / 100).toFixed(2)}`,
     },
-    { field: "type", headerName: "Type", headerAlign: "center", width: 120, align: "center" },
+    { field: "type", headerName: t("common.type"), headerAlign: "center", width: 120, align: "center" },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: t("common.actions"),
       width: 120,
       sortable: false,
       renderCell: (params) => (

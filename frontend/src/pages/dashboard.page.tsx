@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import CustomCard from "../components/common/custom-card.component";
 import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
 import { fetchTransactionsSummary } from "../store/transactions-summary-slice.store";
+import { useTranslation } from "react-i18next";
 
 /**
  * Dashboard page component
@@ -21,6 +22,7 @@ import { fetchTransactionsSummary } from "../store/transactions-summary-slice.st
  * @returns {JSX.Element} The rendered component
  */
 export default function Dashboard() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const transactionsSummary = useAppSelector((state) => state.transactionsSummary);
   const preferredCurrency = useAppSelector((state) => state.user.preferredCurrency);
@@ -33,13 +35,22 @@ export default function Dashboard() {
       <div className="card-row">
         <Grid container spacing={2} component="div">
           <Grid size={{ xs: 12, sm: 4 }}>
-            <CustomCard title="Total Income" description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`} />
+            <CustomCard
+              title={t("dashboard.totalIncome")}
+              description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`}
+            />
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>
-            <CustomCard title="Total Expenses" description={`${preferredCurrency} ${(transactionsSummary.totalExpenses / 100).toFixed(2)}`} />
+            <CustomCard
+              title={t("dashboard.totalExpense")}
+              description={`${preferredCurrency} ${(transactionsSummary.totalExpenses / 100).toFixed(2)}`}
+            />
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>
-            <CustomCard title="Current Balance" description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`} />
+            <CustomCard
+              title={t("dashboard.currentBalance")}
+              description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`}
+            />
           </Grid>
         </Grid>
       </div>

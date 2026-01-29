@@ -7,6 +7,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../api/auth";
 import { useAppSelector } from "../../hooks/use-app.hook";
 import { selectUser } from "../../store/user-slice.store";
@@ -33,6 +34,7 @@ export default function AppNavbar({ label, onMenuClick }: AppNavbarProps) {
   const user = useAppSelector(selectUser);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { logout } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -51,10 +53,10 @@ export default function AppNavbar({ label, onMenuClick }: AppNavbarProps) {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Box sx={{ textAlign: "right" }}>
               <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                Welcome, {user.name}
+                {t("topNav.welcome")}, {user.name}
               </Typography>
               <Typography variant="caption" display="block">
-                Last login: {new Date(user.lastLoginAt as string).toLocaleString()}
+                {t("topNav.lastLogin")}: {new Date(user.lastLoginAt as string).toLocaleString()}
               </Typography>
             </Box>
             <IconButton size="large" onClick={(e) => setAnchorEl(e.currentTarget)} color="inherit">
@@ -62,7 +64,7 @@ export default function AppNavbar({ label, onMenuClick }: AppNavbarProps) {
             </IconButton>
 
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-              <MenuItem onClick={logout}>Logout</MenuItem>
+              <MenuItem onClick={logout}>{t("topNav.logout")}</MenuItem>
             </Menu>
           </Box>
         )}

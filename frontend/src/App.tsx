@@ -20,7 +20,7 @@ import TransactionsPage from "./pages/transaction.page";
  */
 function App() {
   const isChecking = useAuthCheck();
-  if (isChecking) return <LoadingOverlay type="fullscreen" message="Loading..." />;
+  if (isChecking) return <LoadingOverlay type="fullscreen" />;
 
   return (
     <BrowserRouter>

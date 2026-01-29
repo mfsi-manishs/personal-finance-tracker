@@ -4,6 +4,7 @@
  */
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 /**
  * @interface ConfirmDialogProps
@@ -37,6 +38,7 @@ export interface ConfirmDialogProps {
  * @returns {JSX.Element} The rendered component
  */
 export default function ConfirmDialog({ open, title, text, confirmBtnText, onClose, onConfirm }: ConfirmDialogProps) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -44,7 +46,7 @@ export default function ConfirmDialog({ open, title, text, confirmBtnText, onClo
         <DialogContentText>{text}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>{t("common.cancel")}</Button>
         <Button
           onClick={() => {
             onConfirm();

@@ -6,9 +6,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import type { NavItem } from "../components/common/sidebar.component";
 
 export const SIDE_NAVBAR_ITEMS: NavItem[] = [
-  { label: "Dashboard", path: "/dashboard", icon: <DashboardIcon /> },
-  { label: "Transactions", path: "/transactions", icon: <ReceiptLongIcon /> },
-  { label: "Categories", path: "/categories", icon: <CategoryIcon /> },
-  { label: "Reports", path: "/reports", icon: <AnalyticsIcon /> },
-  { label: "Profile", path: "/profile", icon: <AccountCircleIcon /> },
+  { label: "sidebar.dashboard", path: "/dashboard", icon: <DashboardIcon /> },
+  { label: "sidebar.transactions", path: "/transactions", icon: <ReceiptLongIcon /> },
+  { label: "sidebar.categories", path: "/categories", icon: <CategoryIcon /> },
+  { label: "sidebar.reports", path: "/reports", icon: <AnalyticsIcon /> },
+  { label: "sidebar.profile", path: "/profile", icon: <AccountCircleIcon /> },
 ];
