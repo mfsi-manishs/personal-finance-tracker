@@ -24,7 +24,8 @@ export class TransService {
    */
   static async create(userId: string, input: TransactionInput) {
     const objId = new mongoose.Types.ObjectId(userId);
-    return TransactionModel.create({ ...input, objId } as Partial<ITransaction>);
+    const trans = await TransactionModel.create({ ...input, objId } as Partial<ITransaction>);
+    return trans.populate("transCategoryId", "name description type id");
   }
 
   /**
@@ -81,7 +82,7 @@ export class TransService {
    * @description This function updates a transaction by ID in the database and returns a promise containing the updated transaction
    */
   static async update(transId: mongoose.Types.ObjectId, data: UpdateTransBodyInput) {
-    const trans = await TransactionModel.findByIdAndUpdate(transId, data, { new: true });
+    const trans = await TransactionModel.findByIdAndUpdate(transId, data, { new: true }).populate("transCategoryId", "name description type id");
     if (!trans) {
       throw new NotFoundError("Transaction not found");
     }
@@ -96,7 +97,7 @@ export class TransService {
    * @throws {NotFoundError} If the transaction is not found
    */
   static async delete(transId: mongoose.Types.ObjectId) {
-    const trans = await TransactionModel.findByIdAndDelete(transId);
+    const trans = await TransactionModel.findByIdAndDelete(transId).populate("transCategoryId", "name description type id");
     if (!trans) {
       throw new NotFoundError("Transaction not found");
     }
