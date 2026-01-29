@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ConfirmDialog from "../components/common/confirm-dialog.component"; // Custom confirm component
 import TransactionModal from "../components/transaction-modal.component";
-import { useAppDispatch } from "../hooks/use-app-dispatch.hook";
+import { useAppDispatch } from "../hooks/use-app.hook";
 import { deleteTransaction, fetchTransactions, selectAllTransactions, type Transaction } from "../store/transaction-slice.store";
 
 /**

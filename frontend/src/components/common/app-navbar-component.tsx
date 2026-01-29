@@ -7,9 +7,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
 import { useAuth } from "../../api/auth";
-import { type RootState } from "../../store/store";
+import { useAppSelector } from "../../hooks/use-app.hook";
+import { selectUser } from "../../store/user-slice.store";
 
 /**
  * @interface AppNavbarProps
@@ -30,7 +30,7 @@ interface AppNavbarProps {
  * Renders the app navbar with user info and a logout button
  */
 export default function AppNavbar({ label, onMenuClick }: AppNavbarProps) {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useAppSelector(selectUser);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { logout } = useAuth();
 

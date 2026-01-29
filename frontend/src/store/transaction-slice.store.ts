@@ -6,6 +6,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
 import type { RootState } from "./store";
+import type { TransactionCategory } from "./transaction-category-slice.store";
 
 /**
  * @interface Transaction
@@ -13,7 +14,7 @@ import type { RootState } from "./store";
  */
 export interface Transaction {
   id: string;
-  category: string;
+  transCategory: TransactionCategory;
   amount: number;
   currency: string;
   type: "income" | "expense";
@@ -73,15 +74,14 @@ export const deleteTransaction = createAsyncThunk("transactions/delete", async (
  */
 const transactionSlice = createSlice({
   name: "transactions",
-  initialState: transactionsAdapter.getInitialState({ status: "idle" }),
+  initialState: transactionsAdapter.getInitialState({ status: "idle", error: null as string | null }),
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTransactions.fulfilled, transactionsAdapter.setAll)
       .addCase(createTransaction.fulfilled, transactionsAdapter.addOne)
       .addCase(editTransaction.fulfilled, (state, action) => {
-        console.log(typeof action.payload.amount);
-        const payload = { ...action.payload, amount: Number(action.payload.amount) };
+        const payload = { ...action.payload, amount: Number(action.payload.amount), transCategory: action.payload.transCategory };
         transactionsAdapter.updateOne(state, { id: action.payload.id, changes: payload });
       })
       .addCase(deleteTransaction.fulfilled, transactionsAdapter.removeOne);

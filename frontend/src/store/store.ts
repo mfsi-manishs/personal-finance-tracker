@@ -7,6 +7,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth-slice.store";
 import transactionsReducer from "./transaction-slice.store";
 import userReducer from "./user-slice.store";
+import transactionCategoriesReducer from "./transaction-category-slice.store";
 
 /**
  * @constant store
@@ -16,6 +17,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
+    transactionCategories: transactionCategoriesReducer,
     transactions: transactionsReducer,
   },
 });

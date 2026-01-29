@@ -4,6 +4,7 @@
  */
 
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "./store";
 
 /**
  * @interface UserState
@@ -76,6 +77,11 @@ const userSlice = createSlice({
     },
   },
 });
+
+// Selectors
+
+export const selectUser = (state: RootState) => state.user;
+export const selectPreferredCurrency = (state: RootState) => state.user.preferredCurrency;
 
 export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

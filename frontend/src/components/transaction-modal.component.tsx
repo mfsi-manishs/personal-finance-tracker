@@ -5,9 +5,12 @@
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { useAppDispatch } from "../hooks/use-app-dispatch.hook";
+import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
+import { selectAllCategories } from "../store/transaction-category-slice.store";
 import { createTransaction, editTransaction, type Transaction } from "../store/transaction-slice.store";
+import { selectPreferredCurrency } from "../store/user-slice.store";
 import { AppUtils } from "../utils/app.util";
+import TransactionCategorySelect from "./common/transaction-category-select.component";
 
 /**
  * @interface TransactionModalProps
@@ -23,7 +26,14 @@ export interface TransactionModalProps {
  * @interface TransactionFormData
  * @description Transaction form data
  */
-type TransactionFormData = Transaction;
+export interface TransactionFormData {
+  amount: string;
+  type: "income" | "expense";
+  description: string;
+  date: string;
+  transCategoryId: string;
+  currency: string;
+}
 
 /**
  * Transaction Modal dialog component
@@ -37,11 +47,19 @@ type TransactionFormData = Transaction;
  * @returns {JSX.Element} The rendered component
  */
 export default function TransactionModal({ open, onClose, initialData }: TransactionModalProps) {
+  const preferredCurrency = useAppSelector(selectPreferredCurrency);
+  const transCategories = useAppSelector(selectAllCategories);
   const dispatch = useAppDispatch();
   const { control, handleSubmit } = useForm({
     values: initialData
-      ? { ...initialData, date: initialData.date ? AppUtils.toLocalDateTimeString(new Date(initialData.date)) : "" }
-      : { amount: "", type: "expense", description: "", date: "" },
+      ? {
+          ...initialData,
+          amount: Number(initialData.amount / 100).toString(),
+          date: initialData.date ? AppUtils.toLocalDateTimeString(new Date(initialData.date)) : "",
+          type: initialData.type as "income" | "expense",
+          transCategoryId: initialData.transCategory.id,
+        }
+      : { amount: "", type: "expense" as "income" | "expense", description: "", date: "", transCategoryId: "", currency: preferredCurrency || "INR" },
   });
 
   /**
@@ -52,13 +70,20 @@ export default function TransactionModal({ open, onClose, initialData }: Transac
    * @param {object} formData - The form data to be submitted
    */
   const onSubmit = (formData: TransactionFormData) => {
-    const sanitizedData = { ...formData, amount: Number(formData.amount), date: formData.date ? new Date(formData.date).toISOString() : "" };
+    const selectedCategory = transCategories.find((cat) => cat.id === formData.transCategoryId);
+    const sanitizedData = {
+      ...formData,
+      transCategory: selectedCategory!,
+      amount: Number(formData.amount) * 100,
+      date: formData.date ? new Date(formData.date).toISOString() : "",
+      currency: preferredCurrency ? preferredCurrency : "INR",
+    };
     if (initialData) {
       // Update existing
       dispatch(editTransaction({ ...initialData, ...sanitizedData }));
     } else {
       // Add new with temp generated ID
-      dispatch(createTransaction({ ...sanitizedData, id: crypto.randomUUID() }));
+      dispatch(createTransaction({ ...sanitizedData }));
     }
     onClose();
   };
@@ -69,6 +94,7 @@ export default function TransactionModal({ open, onClose, initialData }: Transac
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
           <Controller name="amount" control={control} render={({ field }) => <TextField {...field} label="Amount" type="number" fullWidth />} />
+          <Controller name="currency" control={control} render={({ field }) => <TextField {...field} label="Currency" disabled fullWidth />} />
           <Controller
             name="type"
             control={control}
@@ -85,7 +111,7 @@ export default function TransactionModal({ open, onClose, initialData }: Transac
             control={control}
             render={({ field }) => <TextField {...field} label="Date" type="datetime-local" fullWidth InputLabelProps={{ shrink: true }} />}
           />
-          <Controller name="category" control={control} render={({ field }) => <TextField {...field} label="Category" fullWidth />} />
+          <TransactionCategorySelect name="transCategoryId" control={control} />
         </Stack>
       </DialogContent>
       <DialogActions>
