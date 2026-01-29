@@ -11,7 +11,7 @@ import LoginForm from "./components/login-form.component";
 import ProtectedRoute from "./components/protected-route.component";
 import { SIDE_NAVBAR_ITEMS } from "./constants/side-navbar-items.constant";
 import { useAuthCheck } from "./hooks/use-auth-check.hook";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/dashboard.page";
 import TransactionsPage from "./pages/transaction.page";
 
 /**

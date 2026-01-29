@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import ConfirmDialog from "../components/common/confirm-dialog.component"; // Custom confirm component
 import TransactionModal from "../components/transaction-modal.component";
 import { useAppDispatch } from "../hooks/use-app.hook";
+import { fetchCategories } from "../store/transaction-category-slice.store";
 import { deleteTransaction, fetchTransactions, selectAllTransactions, type Transaction } from "../store/transaction-slice.store";
 
 /**
@@ -88,6 +89,7 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     dispatch(fetchTransactions());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   return (

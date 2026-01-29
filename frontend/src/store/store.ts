@@ -5,9 +5,10 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth-slice.store";
-import transactionsReducer from "./transaction-slice.store";
-import userReducer from "./user-slice.store";
 import transactionCategoriesReducer from "./transaction-category-slice.store";
+import transactionsReducer from "./transaction-slice.store";
+import transactionsSummaryReducer from "./transactions-summary-slice.store";
+import userReducer from "./user-slice.store";
 
 /**
  * @constant store
@@ -19,6 +20,7 @@ export const store = configureStore({
     user: userReducer,
     transactionCategories: transactionCategoriesReducer,
     transactions: transactionsReducer,
+    transactionsSummary: transactionsSummaryReducer,
   },
 });
 

@@ -11,25 +11,25 @@ export interface TransactionCategory {
 
 // Fetch all categories
 export const fetchCategories = createAsyncThunk("transactionCategories/fetchCategories", async () => {
-  const response = await api.get<TransactionCategory[]>("/categories");
+  const response = await api.get<TransactionCategory[]>("/trans-categories");
   return response.data;
 });
 
 // Add new category (backend generates id)
 export const createCategory = createAsyncThunk("transactionCategory/createCategory", async (category: Omit<TransactionCategory, "id">) => {
-  const response = await api.post<TransactionCategory>("/categories", category);
+  const response = await api.post<TransactionCategory>("/trans-categories", category);
   return response.data;
 });
 
 // Update category
 export const editCategory = createAsyncThunk("transactionCategories/editCategory", async (category: TransactionCategory) => {
-  const response = await api.patch<TransactionCategory>(`/categories/${category.id}`, category);
+  const response = await api.patch<TransactionCategory>(`/trans-categories/${category.id}`, category);
   return response.data;
 });
 
 // Delete category
 export const removeCategory = createAsyncThunk("transactionCategories/removeCategory", async (id: string) => {
-  await api.delete(`/categories/${id}`);
+  await api.delete(`/trans-categories/${id}`);
   return id;
 });
 

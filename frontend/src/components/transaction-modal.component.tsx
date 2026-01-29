@@ -54,7 +54,7 @@ export default function TransactionModal({ open, onClose, initialData }: Transac
     values: initialData
       ? {
           ...initialData,
-          amount: Number(initialData.amount / 100).toString(),
+          amount: (initialData.amount / 100).toFixed(2),
           date: initialData.date ? AppUtils.toLocalDateTimeString(new Date(initialData.date)) : "",
           type: initialData.type as "income" | "expense",
           transCategoryId: initialData.transCategory.id,

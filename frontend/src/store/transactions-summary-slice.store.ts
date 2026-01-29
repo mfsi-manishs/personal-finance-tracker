@@ -67,4 +67,4 @@ const transactionsSummarySlice = createSlice({
   },
 });
 
-export default transactionsSummarySlice;
+export default transactionsSummarySlice.reducer;

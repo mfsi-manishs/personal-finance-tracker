@@ -1,0 +1,30 @@
+.custom-card {
+  max-width: 345px;
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-card-media {
+  height: 180px;
+  object-fit: cover;
+}
+
+.custom-card-content {
+  padding: 16px;
+}
+
+.custom-card-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.custom-card-description {
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.custom-card-button {
+  text-transform: none;
+  font-weight: 500;
+}
