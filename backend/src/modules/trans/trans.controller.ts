@@ -86,6 +86,16 @@ export class TransController {
   }
 
   /**
+   * Retrieves the list of transactions grouped by year and month
+   * @returns {Promise<Response>} A promise containing the response object
+   * @description This function retrieves the list of transactions grouped by year and month and returns a promise containing the response object
+   */
+  static async getTrasactionYearMonthList(req: Request, res: Response) {
+    const summary = await TransService.getTrasactionYearMonthList(req.user!.id);
+    res.status(200).json(summary);
+  }
+
+  /**
    * Deletes a transaction by ID from the database
    * @param {Request<UpdateTransParamsInput>} req - Express request object
    * @param {Response} res - Express response object

@@ -319,4 +319,43 @@ export class TransService {
 
     return { totalIncome, totalExpenses, currentBalance: currentBal, currency: summary[0]?._id.currency };
   }
+
+  /**
+   * Retrieves a list of distinct year-month pairs from the user's transactions, sorted in descending order
+   * @param {string} userId - Id of the user
+   * @returns {Promise<{ year: number, month: number }[]>} A promise containing the list of year-month pairs
+   * @description This function retrieves a list of distinct year-month pairs from the user's transactions, sorted in descending order
+   */
+  static async getTrasactionYearMonthList(userId: string) {
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    return TransactionModel.aggregate([
+      {
+        $match: {
+          userId: userObjectId,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$date" },
+            month: { $month: "$date" },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          year: "$_id.year",
+          month: "$_id.month",
+        },
+      },
+      {
+        $sort: {
+          year: -1,
+          month: -1,
+        },
+      },
+    ]);
+  }
 }
