@@ -16,6 +16,7 @@ import TransactionModal from "../components/transaction-modal.component";
 import { useAppDispatch } from "../hooks/use-app.hook";
 import { fetchCategories } from "../store/transaction-category-slice.store";
 import { deleteTransaction, fetchTransactions, selectAllTransactions, type Transaction } from "../store/transaction-slice.store";
+import { AppUtils } from "../utils/app.util";
 
 /**
  * The transactions page component
@@ -32,9 +33,19 @@ export default function TransactionsPage() {
   const rows = useSelector(selectAllTransactions);
 
   const columns: GridColDef<Transaction>[] = [
-    { field: "date", headerName: t("common.date"), width: 120 },
+    {
+      field: "date",
+      headerName: t("common.date"),
+      width: 120,
+      valueFormatter: (_value, row) => AppUtils.toLocalDateTimeString(new Date(row.date!)).split("T"),
+    },
     { field: "description", headerName: t("common.description"), flex: 1 },
-    { field: "transCategory.name", headerName: t("common.category"), width: 150 },
+    {
+      field: "transCategory",
+      headerName: t("common.category"),
+      width: 150,
+      valueGetter: (_value, row) => row.transCategory?.name,
+    },
     {
       field: "amount",
       headerName: t("common.amount"),
