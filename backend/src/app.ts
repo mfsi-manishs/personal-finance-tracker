@@ -1,8 +1,12 @@
+import "./config/zod-to-openapi.config.js"; // Must be first import
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpecDoc } from "./config/swagger.js";
 import { env } from "./env.js";
 import { globalErrorHandler } from "./middlewares/error.middleware.js";
 import authRoutes from "./modules/auth/auth.route.js";
@@ -48,8 +52,10 @@ app.use(
   })
 );
 
-// Register routes
-app.get("/", (req, res) => {
+// Swagger route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecDoc));
+
+app.get("/test", (req, res) => {
   console.log(`request: ${req.method} ${req.url}`);
   res.send("Personal Finance Tracker API is running...");
 });

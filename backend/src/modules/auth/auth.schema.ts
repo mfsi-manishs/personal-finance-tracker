@@ -12,17 +12,19 @@ export const tokenSchema = z.string().trim().min(1, "Refresh Token is required")
  * @constant registerSchema
  * @description Register schema
  */
-export const registerSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Name is required and can not be too short")
-    .max(64, "Name is required and can not be too long")
-    .regex(/^[\p{L}\p{M}]+([ '.\-][\p{L}\p{M}]+)*$/u, "Name can only contain unicode letters, spaces, dots, hyphens and apostrophes"),
-  email: emailSchema,
-  password: passwordSchema,
-  preferredCurrency: currencySchema.optional(),
-});
+export const registerSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(2, "Name is required and can not be too short")
+      .max(64, "Name is required and can not be too long")
+      .regex(/^[\p{L}\p{M}]+([ '.\-][\p{L}\p{M}]+)*$/u, "Name can only contain unicode letters, spaces, dots, hyphens and apostrophes"),
+    email: emailSchema,
+    password: passwordSchema,
+    preferredCurrency: currencySchema.optional(),
+  })
+  .openapi("RegisterSchema");
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 
