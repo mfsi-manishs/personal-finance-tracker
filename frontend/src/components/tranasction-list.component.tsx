@@ -6,6 +6,8 @@
 import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import type { TransactionState } from "../store/store.type";
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import RemoveCircleOutlinedIcon from "@mui/icons-material/RemoveCircleOutlined";
 
 /**
  * @interface TransactionListProps
@@ -32,7 +34,7 @@ export const TransactionList = ({ transactions }: TransactionListProps) => {
       {transactions.map((tx) => (
         <ListItem key={tx.id} divider>
           <ListItemAvatar>
-            <Avatar>{tx.currency}</Avatar>
+            <Avatar>{tx.type === "expense" ? <RemoveCircleOutlinedIcon /> : <AddCircleOutlinedIcon />}</Avatar>
           </ListItemAvatar>
 
           <ListItemText primary={tx.description || tx.transCategory?.name} secondary={dayjs(tx.date).format("DD MMM")} />

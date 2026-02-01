@@ -53,7 +53,7 @@ export default function TransactionsPage() {
       headerAlign: "right",
       width: 130,
       align: "right",
-      renderCell: (params) => `${params.row.currency}${(params.value! / 100).toFixed(2)}`,
+      renderCell: (params) => `${params.row.currency} ${(params.value! / 100).toFixed(2)}`,
     },
     { field: "type", headerName: t("common.type"), headerAlign: "center", width: 120, align: "center" },
     {
@@ -132,8 +132,8 @@ export default function TransactionsPage() {
       {/* Confirmation for Delete */}
       <ConfirmDialog
         open={deleteDialogOpen}
-        title={t("common.deleteTrans")}
-        text={t("common.deleteConfirm")}
+        title={t("trans.deleteTrans")}
+        text={t("trans.deleteTransConfirm")}
         confirmBtnText={t("common.delete")}
         onClose={() => setDeleteDialogOpen(false)}
         onConfirm={handleDeleteConfirm}

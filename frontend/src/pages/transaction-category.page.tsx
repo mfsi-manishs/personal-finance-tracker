@@ -15,6 +15,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Stack,
   Typography,
@@ -23,6 +24,7 @@ import TextField from "@mui/material/TextField";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import ConfirmDialog from "../components/common/confirm-dialog.component";
 import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
 import type { TransactionCategoryState } from "../store/store.type";
 import { createCategory, editCategory, fetchCategories, removeCategory, selectAllCategories } from "../store/transaction-category-slice.store";
@@ -55,6 +57,8 @@ export default function TransactionCategory() {
 
   const [open, setOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<TransactionCategoryState | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<TransactionCategoryState | null>(null);
 
   const { control, handleSubmit, reset } = useForm<TransactionCategoryFormInputs>({
     defaultValues: { name: "", description: "" },
@@ -107,10 +111,19 @@ export default function TransactionCategory() {
    * Handles the deletion of a transaction category
    * @param {category} The transaction category to delete. If the category type is "custom", it will be deleted from the store.
    */
-  const handleDelete = (category: TransactionCategoryState) => {
-    if (category.type === "custom") {
-      dispatch(removeCategory(category.id));
-    }
+  const handleDeleteClick = (category: TransactionCategoryState) => {
+    setSelectedCategory(category);
+    setDeleteDialogOpen(true);
+  };
+
+  /**
+   * Deletes a transaction category from the store if the category type is "custom".
+   * Otherwise, no action is taken.
+   * Sets the delete dialog to be closed.
+   */
+  const handleDeleteConfirm = () => {
+    if (selectedCategory && selectedCategory.type === "custom") dispatch(removeCategory(selectedCategory.id));
+    setDeleteDialogOpen(false);
   };
 
   useEffect(() => {
@@ -134,24 +147,26 @@ export default function TransactionCategory() {
       </Stack>
       <List>
         {categories.map((cat: TransactionCategoryState) => (
-          <ListItem
-            key={cat.id}
-            secondaryAction={
-              <>
-                {cat.type === "custom" && (
-                  <IconButton edge="end" onClick={() => handleOpen(cat)}>
-                    <Edit />
-                  </IconButton>
-                )}
-                {cat.type === "custom" && (
-                  <IconButton edge="end" onClick={() => handleDelete(cat)}>
-                    <Delete />
-                  </IconButton>
-                )}
-              </>
-            }>
-            <ListItemText primary={cat.name} secondary={cat.description} />
-          </ListItem>
+          <ListItemButton>
+            <ListItem
+              key={cat.id}
+              secondaryAction={
+                <>
+                  {cat.type === "custom" && (
+                    <IconButton edge="end" onClick={() => handleOpen(cat)}>
+                      <Edit fontSize="small" color="primary" />
+                    </IconButton>
+                  )}
+                  {cat.type === "custom" && (
+                    <IconButton edge="end" onClick={() => handleDeleteClick(cat)}>
+                      <Delete fontSize="small" color="error" />
+                    </IconButton>
+                  )}
+                </>
+              }>
+              <ListItemText primary={cat.name} secondary={cat.description} />
+            </ListItem>
+          </ListItemButton>
         ))}
       </List>
 
@@ -189,6 +204,16 @@ export default function TransactionCategory() {
           </DialogActions>
         </form>
       </Dialog>
+
+      {/* Confirmation for Delete */}
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        title={t("transCategory.deleteCategory")}
+        text={t("transCategory.deleteCategoryConfirm")}
+        confirmBtnText={t("common.delete")}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDeleteConfirm}
+      />
     </Box>
   );
 }
