@@ -3,13 +3,19 @@
  * @fileoverview This file contains the dashboard page
  */
 
-import { Box } from "@mui/material";
+import { Box, LinearProgress, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
-import CustomCard from "../components/common/custom-card.component";
-import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
-import { fetchTransactionsSummary } from "../store/transactions-summary-slice.store";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import CustomCard from "../components/common/custom-card.component";
+import { MonthSelector } from "../components/month-selector.component";
+import { MonthlyTransactionSummary } from "../components/monthly-transactions-summary.component";
+import { TransactionList } from "../components/tranasction-list.component";
+import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
+import { fetchMonthlyTransactions, fetchTransactionYearMonths, selectMonthlyTransactions } from "../store/monthly-transaction-slice.store";
+import { fetchTransactionsSummary } from "../store/transactions-summary-slice.store";
+import { selectPreferredCurrency } from "../store/user-slice.store";
 
 /**
  * Dashboard page component
@@ -23,37 +29,78 @@ import { useTranslation } from "react-i18next";
  */
 export default function Dashboard() {
   const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
+
   const transactionsSummary = useAppSelector((state) => state.transactionsSummary);
-  const preferredCurrency = useAppSelector((state) => state.user.preferredCurrency);
+  const preferredCurrency = useAppSelector(selectPreferredCurrency);
+  const { yearMonths, transactions, totalIncome, totalExpense, status } = useAppSelector(selectMonthlyTransactions);
+
+  const { control, watch, setValue } = useForm({
+    defaultValues: {
+      yearMonth: "",
+    },
+  });
+
+  const selectedYearMonth = watch("yearMonth");
+
+  // Auto-select latest month
+  useEffect(() => {
+    if (yearMonths.length) {
+      const { year, month } = yearMonths[0];
+      setValue("yearMonth", `${year}-${month}`);
+    }
+  }, [yearMonths]);
+
+  // Fetch transactions on change
+  useEffect(() => {
+    if (!selectedYearMonth) return;
+
+    const [year, month] = selectedYearMonth.split("-").map(Number);
+
+    dispatch(fetchMonthlyTransactions({ year, month }));
+  }, [selectedYearMonth]);
 
   useEffect(() => {
     dispatch(fetchTransactionsSummary({}));
+    dispatch(fetchTransactionYearMonths());
   }, [dispatch]);
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <div className="card-row">
-        <Grid container spacing={2} component="div">
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <CustomCard
-              title={t("dashboard.totalIncome")}
-              description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`}
-            />
+    <Stack spacing={3}>
+      <Box sx={{ flexGrow: 1 }}>
+        <div className="card-row">
+          <Grid container spacing={2} component="div">
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <CustomCard
+                title={t("dashboard.totalIncome")}
+                description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <CustomCard
+                title={t("dashboard.totalExpense")}
+                description={`${preferredCurrency} ${(transactionsSummary.totalExpenses / 100).toFixed(2)}`}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <CustomCard
+                title={t("dashboard.currentBalance")}
+                description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`}
+              />
+            </Grid>
           </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <CustomCard
-              title={t("dashboard.totalExpense")}
-              description={`${preferredCurrency} ${(transactionsSummary.totalExpenses / 100).toFixed(2)}`}
-            />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <CustomCard
-              title={t("dashboard.currentBalance")}
-              description={`${preferredCurrency} ${(transactionsSummary.totalIncome / 100).toFixed(2)}`}
-            />
-          </Grid>
-        </Grid>
-      </div>
-    </Box>
+        </div>
+      </Box>
+
+      <MonthSelector control={control} months={yearMonths} />
+
+      {status === "loading" && <LinearProgress />}
+
+      <MonthlyTransactionSummary income={totalIncome} expense={totalExpense} currency={preferredCurrency} />
+
+      <Box>
+        <TransactionList transactions={transactions} />
+      </Box>
+    </Stack>
   );
 }

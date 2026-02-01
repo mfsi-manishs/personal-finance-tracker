@@ -5,20 +5,7 @@
 
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
-
-/**
- * @interface UserState
- * @description User state
- */
-interface UserState {
-  id: string | null;
-  name: string | null;
-  email: string | null;
-  role: string | null;
-  isLoggedIn: boolean;
-  lastLoginAt: string | null;
-  preferredCurrency: string | null;
-}
+import type { UserState } from "./store.type";
 
 /**
  * @constant initialState

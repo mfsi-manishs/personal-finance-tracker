@@ -7,8 +7,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, St
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
+import type { TransactionState } from "../store/store.type";
 import { selectAllCategories } from "../store/transaction-category-slice.store";
-import { createTransaction, editTransaction, type Transaction } from "../store/transaction-slice.store";
+import { createTransaction, editTransaction } from "../store/transaction-slice.store";
 import { selectPreferredCurrency } from "../store/user-slice.store";
 import { AppUtils } from "../utils/app.util";
 import TransactionCategorySelect from "./common/transaction-category-select.component";
@@ -20,7 +21,7 @@ import TransactionCategorySelect from "./common/transaction-category-select.comp
 export interface TransactionModalProps {
   open: boolean;
   onClose: () => void;
-  initialData: Transaction | null;
+  initialData: TransactionState | null;
 }
 
 /**

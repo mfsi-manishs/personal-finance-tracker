@@ -6,7 +6,8 @@
 import { MenuItem, TextField } from "@mui/material";
 import { Controller, type Control, type FieldPath } from "react-hook-form";
 import { useAppSelector } from "../../hooks/use-app.hook";
-import { selectAllCategories, type TransactionCategory } from "../../store/transaction-category-slice.store";
+import type { TransactionCategoryState } from "../../store/store.type";
+import { selectAllCategories } from "../../store/transaction-category-slice.store";
 import type { TransactionFormData } from "../transaction-modal.component";
 
 /**
@@ -35,7 +36,7 @@ export default function TransactionCategorySelect({ name, control, label }: Tran
       control={control}
       render={({ field }) => (
         <TextField {...field} label={label} select fullWidth>
-          {categories.map((cat: TransactionCategory) => (
+          {categories.map((cat: TransactionCategoryState) => (
             <MenuItem key={cat.id} value={cat.id}>
               {cat.name}
             </MenuItem>

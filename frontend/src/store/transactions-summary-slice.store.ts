@@ -3,21 +3,10 @@
  * @fileoverview This file contains the transactions summary slice
  */
 
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../api/axios";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
-
-/**
- * @interface TransactionsSummary
- * @description Transactions summary
- */
-interface TransactionsSummary {
-  totalIncome: number;
-  totalExpenses: number;
-  currentBalance: number;
-  currency: string;
-}
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../api/axios";
+import type { TransactionsSummary } from "./store.type";
 
 const initialState: TransactionsSummary = { totalIncome: 0, totalExpenses: 0, currentBalance: 0, currency: "INR" };
 

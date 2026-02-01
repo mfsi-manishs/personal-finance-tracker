@@ -14,8 +14,9 @@ import { useSelector } from "react-redux";
 import ConfirmDialog from "../components/common/confirm-dialog.component"; // Custom confirm component
 import TransactionModal from "../components/transaction-modal.component";
 import { useAppDispatch } from "../hooks/use-app.hook";
+import type { TransactionState } from "../store/store.type";
 import { fetchCategories } from "../store/transaction-category-slice.store";
-import { deleteTransaction, fetchTransactions, selectAllTransactions, type Transaction } from "../store/transaction-slice.store";
+import { deleteTransaction, fetchTransactions, selectAllTransactions } from "../store/transaction-slice.store";
 import { AppUtils } from "../utils/app.util";
 
 /**
@@ -27,12 +28,12 @@ export default function TransactionsPage() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<TransactionState | null>(null);
 
   const dispatch = useAppDispatch();
   const rows = useSelector(selectAllTransactions);
 
-  const columns: GridColDef<Transaction>[] = [
+  const columns: GridColDef<TransactionState>[] = [
     {
       field: "date",
       headerName: t("common.date"),
@@ -75,18 +76,18 @@ export default function TransactionsPage() {
 
   /**
    * Opens the transaction modal to edit the given transaction
-   * @param {Transaction} transaction - The transaction to be edited
+   * @param {TransactionState} transaction - The transaction to be edited
    */
-  const handleEdit = (transaction: Transaction) => {
+  const handleEdit = (transaction: TransactionState) => {
     setSelectedTransaction(transaction);
     setModalOpen(true);
   };
 
   /**
    * Opens the delete dialog to delete the given transaction
-   * @param {Transaction} transaction - The transaction to be deleted
+   * @param {TransactionState} transaction - The transaction to be deleted
    */
-  const handleDeleteClick = (transaction: Transaction) => {
+  const handleDeleteClick = (transaction: TransactionState) => {
     setSelectedTransaction(transaction);
     setDeleteDialogOpen(true);
   };
@@ -117,7 +118,7 @@ export default function TransactionsPage() {
             setSelectedTransaction(null);
             setModalOpen(true);
           }}>
-          Add Transaction
+          {t("transModal.addTrans")}
         </Button>
       </Stack>
 
@@ -131,9 +132,9 @@ export default function TransactionsPage() {
       {/* Confirmation for Delete */}
       <ConfirmDialog
         open={deleteDialogOpen}
-        title="Delete Transaction"
-        text="Are you sure you want to delete this transaction?"
-        confirmBtnText="Delete"
+        title={t("common.deleteTrans")}
+        text={t("common.deleteConfirm")}
+        confirmBtnText={t("common.delete")}
         onClose={() => setDeleteDialogOpen(false)}
         onConfirm={handleDeleteConfirm}
       />

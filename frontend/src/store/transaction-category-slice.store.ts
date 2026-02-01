@@ -1,29 +1,23 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
 import type { RootState } from "./store";
-
-export interface TransactionCategory {
-  id: string;
-  name: string;
-  type: "custom" | "default";
-  description: string;
-}
+import type { TransactionCategoryState } from "./store.type";
 
 // Fetch all categories
 export const fetchCategories = createAsyncThunk("transactionCategories/fetchCategories", async () => {
-  const response = await api.get<TransactionCategory[]>("/trans-categories");
+  const response = await api.get<TransactionCategoryState[]>("/trans-categories");
   return response.data;
 });
 
 // Add new category (backend generates id)
-export const createCategory = createAsyncThunk("transactionCategory/createCategory", async (category: Omit<TransactionCategory, "id">) => {
-  const response = await api.post<TransactionCategory>("/trans-categories", category);
+export const createCategory = createAsyncThunk("transactionCategory/createCategory", async (category: Omit<TransactionCategoryState, "id">) => {
+  const response = await api.post<TransactionCategoryState>("/trans-categories", category);
   return response.data;
 });
 
 // Update category
-export const editCategory = createAsyncThunk("transactionCategories/editCategory", async (category: TransactionCategory) => {
-  const response = await api.patch<TransactionCategory>(`/trans-categories/${category.id}`, category);
+export const editCategory = createAsyncThunk("transactionCategories/editCategory", async (category: TransactionCategoryState) => {
+  const response = await api.patch<TransactionCategoryState>(`/trans-categories/${category.id}`, category);
   return response.data;
 });
 
@@ -34,7 +28,7 @@ export const removeCategory = createAsyncThunk("transactionCategories/removeCate
 });
 
 // Adapter
-export const transactionCategoryAdapter = createEntityAdapter<TransactionCategory>({
+export const transactionCategoryAdapter = createEntityAdapter<TransactionCategoryState>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
 });
 

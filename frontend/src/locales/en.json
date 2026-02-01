@@ -11,7 +11,8 @@
     "description": "Description",
     "income": "Income",
     "expense": "Expense",
-    "actions": "Actions"
+    "actions": "Actions",
+    "month": "Month"
   },
   "topNav": {
     "title": "Finance Tracker",
@@ -42,5 +43,9 @@
     "totalIncome": "Total Income",
     "totalExpense": "Total Expense",
     "currentBalance": "Current Balance"
+  },
+  "trans": {
+    "deleteTrans": "Delete Transaction",
+    "deleteTransConfirm": "Are you sure you want to delete this transaction?"
   }
 }

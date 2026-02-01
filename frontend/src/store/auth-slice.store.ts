@@ -4,14 +4,7 @@
  */
 
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-/**
- * @interface AuthState
- * @description Auth state
- */
-interface AuthState {
-  token: string | null;
-}
+import type { AuthState } from "./store.type";
 
 /**
  * @constant initialState

@@ -9,6 +9,7 @@ import transactionCategoriesReducer from "./transaction-category-slice.store";
 import transactionsReducer from "./transaction-slice.store";
 import transactionsSummaryReducer from "./transactions-summary-slice.store";
 import userReducer from "./user-slice.store";
+import monthlyTransactionsReducer from "./monthly-transaction-slice.store";
 
 /**
  * @constant store
@@ -21,6 +22,7 @@ export const store = configureStore({
     transactionCategories: transactionCategoriesReducer,
     transactions: transactionsReducer,
     transactionsSummary: transactionsSummaryReducer,
+    monthlyTransactions: monthlyTransactionsReducer,
   },
 });
 

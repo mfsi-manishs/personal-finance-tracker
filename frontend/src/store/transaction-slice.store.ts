@@ -6,27 +6,13 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
 import type { RootState } from "./store";
-import type { TransactionCategory } from "./transaction-category-slice.store";
-
-/**
- * @interface Transaction
- * @description Transaction interface
- */
-export interface Transaction {
-  id: string;
-  transCategory: TransactionCategory;
-  amount: number;
-  currency: string;
-  type: "income" | "expense";
-  description: string;
-  date: string;
-}
+import type { TransactionState } from "./store.type";
 
 /**
  * @constant transactionsAdapter
  * @description Entity adapter for transactions
  */
-const transactionsAdapter = createEntityAdapter<Transaction>({
+const transactionsAdapter = createEntityAdapter<TransactionState>({
   sortComparer: (a, b) => b.date.localeCompare(a.date), // Sort by newest date
 });
 
@@ -45,7 +31,7 @@ export const fetchTransactions = createAsyncThunk("transactions/fetchAll", async
  * @const createTransaction
  * @description Creates a new transaction
  */
-export const createTransaction = createAsyncThunk("transactions/create", async (data: Omit<Transaction, "id">) => {
+export const createTransaction = createAsyncThunk("transactions/create", async (data: Omit<TransactionState, "id">) => {
   const response = await api.post("/trans", data);
   return response.data; // Backend returns the transaction with its new ID
 });
@@ -54,7 +40,7 @@ export const createTransaction = createAsyncThunk("transactions/create", async (
  * @const editTransaction
  * @description Edits an existing transaction
  */
-export const editTransaction = createAsyncThunk("transactions/edit", async (data: Transaction) => {
+export const editTransaction = createAsyncThunk("transactions/edit", async (data: TransactionState) => {
   const response = await api.patch(`/trans/${data.id}`, data);
   return response.data;
 });
