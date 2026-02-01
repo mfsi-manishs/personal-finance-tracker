@@ -7,7 +7,12 @@ import { Router } from "express";
 import { authenticate } from "../../middlewares/auth.middleware.js";
 import { validateRequest } from "../../middlewares/validate.middleware.js";
 import { TransCategoryController } from "./trans-category.controller.js";
-import { createTransCategorySchema } from "./trans-category.schema.js";
+import {
+  createTransCategorySchema,
+  deleteTransCategorySchema,
+  updateTransCategoryParamsSchema,
+  updateTransCategorySchema,
+} from "./trans-category.schema.js";
 
 /**
  * Returns the router with transaction category routes
@@ -19,6 +24,13 @@ export default function transCategoryRoutes() {
 
   router.post("/create", authenticate, validateRequest({ body: createTransCategorySchema }), TransCategoryController.createTransCategory);
   router.get("/", authenticate, TransCategoryController.list);
+  router.patch(
+    "/:id",
+    authenticate,
+    validateRequest({ params: updateTransCategoryParamsSchema, body: updateTransCategorySchema }),
+    TransCategoryController.update
+  );
+  router.delete("/:id", authenticate, validateRequest({ params: deleteTransCategorySchema }), TransCategoryController.delete);
 
   return router;
 }

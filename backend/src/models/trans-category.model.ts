@@ -11,7 +11,9 @@ const transCategorySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: false,
+    required: function () {
+      return this.type === "custom";
+    },
   },
   name: {
     type: String,
@@ -41,13 +43,12 @@ transCategorySchema.set("toJSON", {
   transform: (_doc, ret: any) => {
     delete ret._id;
     delete ret.createdAt;
-    delete ret.userId;
     delete ret.__v;
     return ret;
   },
 });
 
-transCategorySchema.index({ name: 1, type: 1 }, { unique: true });
+transCategorySchema.index({ name: 1, type: 1, userId: 1 }, { unique: true });
 
 export type ITransCategory = mongoose.InferSchemaType<typeof transCategorySchema>;
 
