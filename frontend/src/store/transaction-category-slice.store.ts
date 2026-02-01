@@ -1,27 +1,44 @@
+/**
+ * @file transaction-category-slice.store.ts
+ * @fileoverview This file contains the transaction category slice
+ */
+
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
 import type { RootState } from "./store";
 import type { TransactionCategoryState } from "./store.type";
 
-// Fetch all categories
+/**
+ * @function fetchCategories
+ * @description Fetch transaction categories
+ */
 export const fetchCategories = createAsyncThunk("transactionCategories/fetchCategories", async () => {
   const response = await api.get<TransactionCategoryState[]>("/trans-categories");
   return response.data;
 });
 
-// Add new category (backend generates id)
+/**
+ * @function createCategory
+ * @description Creates a new transaction category
+ */
 export const createCategory = createAsyncThunk("transactionCategory/createCategory", async (category: Omit<TransactionCategoryState, "id">) => {
-  const response = await api.post<TransactionCategoryState>("/trans-categories", category);
+  const response = await api.post<TransactionCategoryState>("/trans-categories/create", category);
   return response.data;
 });
 
-// Update category
+/**
+ * @function editCategory
+ * @description Edits an existing transaction category
+ */
 export const editCategory = createAsyncThunk("transactionCategories/editCategory", async (category: TransactionCategoryState) => {
   const response = await api.patch<TransactionCategoryState>(`/trans-categories/${category.id}`, category);
   return response.data;
 });
 
-// Delete category
+/**
+ * @function removeCategory
+ * @description Deletes a transaction category
+ */
 export const removeCategory = createAsyncThunk("transactionCategories/removeCategory", async (id: string) => {
   await api.delete(`/trans-categories/${id}`);
   return id;
@@ -40,19 +57,10 @@ const transactionCategorySlice = createSlice({
   name: "transactionCategories",
   initialState,
   reducers: {
-    // Add category from backend response
     addCategory: transactionCategoryAdapter.addOne,
-
-    // Add multiple categories (e.g., bulk fetch from backend)
     addCategories: transactionCategoryAdapter.addMany,
-
-    // Replace all categories (e.g., after fetching list)
     setCategories: transactionCategoryAdapter.setAll,
-
-    // Update category (backend usually returns updated object)
     updateCategory: transactionCategoryAdapter.updateOne,
-
-    // Delete category by id
     deleteCategory: transactionCategoryAdapter.removeOne,
   },
   extraReducers: (builder) => {

@@ -13,6 +13,7 @@ import { SIDE_NAVBAR_ITEMS } from "./constants/side-navbar-items.constant";
 import { useAuthCheck } from "./hooks/use-auth-check.hook";
 import Dashboard from "./pages/dashboard.page";
 import TransactionsPage from "./pages/transaction.page";
+import TransactionCategory from "./pages/transaction-category.page";
 
 /**
  * Renders the login form if there is no token or the dashboard if there is a token.
@@ -38,8 +39,8 @@ function App() {
           {/* All pages inside here will have the Sidebar and Navbar */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<TransactionsPage />} />
-          {/* <Route path="/categories" element={<Categories />} />
-          <Route path="/reports" element={<Reports />} />
+          <Route path="/categories" element={<TransactionCategory />} />
+          {/* <Route path="/reports" element={<Reports />} />
           <Route path="/profile" element={<Profile />} /> */}
         </Route>
 

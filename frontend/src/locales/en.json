@@ -47,5 +47,13 @@
   "trans": {
     "deleteTrans": "Delete Transaction",
     "deleteTransConfirm": "Are you sure you want to delete this transaction?"
+  },
+  "transCategory": {
+    "title": "Transaction Categories",
+    "name": "Name",
+    "addCategory": "Add Category",
+    "editCategory": "Edit Category",
+    "deleteCategory": "Delete Category",
+    "deleteCategoryConfirm": "Are you sure you want to delete this category?"
   }
 }
