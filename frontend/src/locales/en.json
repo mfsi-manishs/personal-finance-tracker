@@ -12,7 +12,8 @@
     "income": "Income",
     "expense": "Expense",
     "actions": "Actions",
-    "month": "Month"
+    "month": "Month",
+    "loading": "Loading..."
   },
   "topNav": {
     "title": "Finance Tracker",
@@ -42,7 +43,8 @@
   "dashboard": {
     "totalIncome": "Total Income",
     "totalExpense": "Total Expense",
-    "currentBalance": "Current Balance"
+    "currentBalance": "Current Balance",
+    "monthlyBalance": "Monthly Balance"
   },
   "trans": {
     "deleteTrans": "Delete Transaction",
@@ -55,5 +57,9 @@
     "editCategory": "Edit Category",
     "deleteCategory": "Delete Category",
     "deleteCategoryConfirm": "Are you sure you want to delete this category?"
+  },
+  "report": {
+    "error": "Failed to load data",
+    "title": "Monthly Category-wise Spending Trends"
   }
 }

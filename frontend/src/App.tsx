@@ -12,8 +12,9 @@ import ProtectedRoute from "./components/protected-route.component";
 import { SIDE_NAVBAR_ITEMS } from "./constants/side-navbar-items.constant";
 import { useAuthCheck } from "./hooks/use-auth-check.hook";
 import Dashboard from "./pages/dashboard.page";
-import TransactionsPage from "./pages/transaction.page";
+import Reports from "./pages/reports.page";
 import TransactionCategory from "./pages/transaction-category.page";
+import TransactionsPage from "./pages/transaction.page";
 
 /**
  * Renders the login form if there is no token or the dashboard if there is a token.
@@ -40,8 +41,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/categories" element={<TransactionCategory />} />
-          {/* <Route path="/reports" element={<Reports />} />
-          <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/reports" element={<Reports />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

@@ -110,7 +110,7 @@ export default function TransactionsPage() {
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h5">Transactions</Typography>
+        <Typography variant="h5">{t("sidebar.transactions")}</Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}

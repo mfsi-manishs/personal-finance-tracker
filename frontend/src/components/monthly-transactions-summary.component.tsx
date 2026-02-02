@@ -51,6 +51,16 @@ export const MonthlyTransactionSummary = ({ income, expense, currency }: Monthly
           </CardContent>
         </Card>
       </Grid>
+      <Grid size={{ xs: 6, sm: 4 }}>
+        <Card>
+          <CardContent>
+            <Typography variant="caption">{t("dashboard.monthlyBalance")}</Typography>
+            <Typography variant="h6" color="primary">
+              {`${currency} ${((income - expense) / 100).toFixed(2)}`}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
   );
 };

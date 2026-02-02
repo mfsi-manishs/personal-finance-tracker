@@ -82,3 +82,33 @@ export interface MonthlyTransactionState {
   status: "idle" | "loading" | "succeeded" | "failed";
   error?: string;
 }
+
+/**
+ * @interface CategoryTransactionSummary
+ * @description Summary of transactions for a category in a month
+ */
+export interface CategoryTransactionSummary {
+  categoryName: string;
+  type: "income" | "expense";
+  totalAmount: number;
+  count: number;
+}
+
+/**
+ * @interface MonthlyCategorySummary
+ * @description Monthly summary with category transactions
+ */
+export interface MonthlyCategorySummary {
+  month: string; // e.g. "2026-01"
+  transactions: CategoryTransactionSummary[];
+}
+
+/**
+ * @interface MonthlyCategorySummaryState
+ * @description State for consolidated monthly category summaries
+ */
+export interface MonthlyCategorySummaryState {
+  data: MonthlyCategorySummary[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error?: string;
+}
