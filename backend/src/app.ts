@@ -69,7 +69,7 @@ app.use("/api/trans", transRoutes());
 app.all(/.*/, (req, _res, next) => {
   // Pass a custom error to the global handler
   const err = new NotFoundError(`Route ${req.originalUrl} not found`);
-  (err as any).statusCode = 404;
+  err.statusCode = 404;
   next(err);
 });
 

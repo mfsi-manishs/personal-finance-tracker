@@ -68,9 +68,17 @@ const transactionSchema = new mongoose.Schema<ITransaction>(
   { timestamps: true }
 );
 
+// Add optional internal fields for transform
+type TransactionDoc = Partial<ITransaction> & {
+  _id?: mongoose.Types.ObjectId;
+  __v?: number;
+  createdAt?: Date;
+  transCategory?: mongoose.Types.ObjectId;
+};
+
 transactionSchema.set("toJSON", {
   virtuals: true,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: TransactionDoc) => {
     if (ret.transCategoryId) {
       ret.transCategory = ret.transCategoryId;
       delete ret.transCategoryId;

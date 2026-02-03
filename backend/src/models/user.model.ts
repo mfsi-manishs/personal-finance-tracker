@@ -86,9 +86,11 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
+type UserDocument = Partial<IUser> & { __v?: number };
+
 userSchema.set("toJSON", {
   virtuals: true,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: UserDocument) => {
     delete ret._id;
     delete ret.passwordHash;
     delete ret.__v;

@@ -8,7 +8,7 @@
  * @classdesc This class contains the app error
  */
 export class AppError extends Error {
-  public readonly statusCode: number;
+  public statusCode: number;
   public readonly isOperational: boolean;
 
   /**

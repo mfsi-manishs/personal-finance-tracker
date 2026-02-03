@@ -38,9 +38,11 @@ const transCategorySchema = new mongoose.Schema({
   },
 });
 
+type TransCategoryDoc = Partial<ITransCategory> & { _id?: mongoose.Types.ObjectId; __v?: number; createdAt?: Date };
+
 transCategorySchema.set("toJSON", {
   virtuals: true,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: TransCategoryDoc) => {
     delete ret._id;
     delete ret.createdAt;
     delete ret.__v;

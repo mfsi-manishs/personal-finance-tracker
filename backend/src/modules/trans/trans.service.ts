@@ -47,7 +47,7 @@ export class TransService {
    * @description This function retrieves all transactions associated with the user in the given date range and returns a promise containing the retrieved transactions
    */
   static async listByDateRange(userId: string, startDate?: Date, endDate?: Date) {
-    const query: any = { userId };
+    const query: { userId: string; date?: { $gte?: Date; $lte?: Date } } = { userId };
 
     // Apply date range filter if dates are provided
     if (startDate && endDate) {
@@ -282,7 +282,7 @@ export class TransService {
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
     // Build the match criteria dynamically
-    const matchCriteria: any = { userId: userObjectId };
+    const matchCriteria: { userId: mongoose.Types.ObjectId; date?: { $gte?: Date; $lte?: Date } } = { userId: userObjectId };
 
     if (startDate || endDate) {
       matchCriteria.date = {};
