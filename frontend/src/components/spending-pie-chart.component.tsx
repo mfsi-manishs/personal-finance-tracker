@@ -8,6 +8,7 @@ import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { t } from "i18next";
 import { Pie } from "react-chartjs-2";
 import type { MonthlyCategoryTrendsProps } from "../pages/reports.page";
+import { useMemo } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -31,13 +32,15 @@ export default function SpendingPieChart({ summaries, status }: MonthlyCategoryT
       .reduce((total, amount) => total + amount, 0);
   });
 
+  const colors = useMemo(() => categoryExpenses.map(() => `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`), [categoryExpenses]);
+
   const data = {
     labels: expenseCategories,
     datasets: [
       {
         label: "Expenses",
         data: categoryExpenses.map((amount) => amount / 100),
-        backgroundColor: categoryExpenses.map(() => `hsl(${Math.random() * 360}, 70%, 50%)`),
+        backgroundColor: colors,
         borderColor: "white",
         borderWidth: 2,
       },

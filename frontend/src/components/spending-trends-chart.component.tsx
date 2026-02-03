@@ -8,6 +8,7 @@ import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, Poin
 import { t } from "i18next";
 import { Line } from "react-chartjs-2";
 import type { MonthlyCategoryTrendsProps } from "../pages/reports.page";
+import { useMemo } from "react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -24,6 +25,8 @@ export default function MonthlyCategoryTrends({ summaries, currency, status }: M
   // Create labels for each month
   const labels = summaries.map((m) => m.month);
 
+  const colors = useMemo(() => categories.map(() => `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`), [categories]);
+
   // Create datasets for each category from the above unique categories for each month
   const datasets = categories.map((cat) => {
     return {
@@ -32,7 +35,7 @@ export default function MonthlyCategoryTrends({ summaries, currency, status }: M
         const tx = m.transactions.find((t) => t.categoryName === cat && t.type === "expense");
         return tx ? tx.totalAmount / 100 : 0;
       }),
-      borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
+      borderColor: colors,
       backgroundColor: "transparent",
     };
   });

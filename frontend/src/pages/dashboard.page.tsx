@@ -6,7 +6,7 @@
 import { Box, LinearProgress, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import CustomCard from "../components/common/custom-card.component";
 import { MonthSelector } from "../components/month-selector.component";
@@ -16,6 +16,8 @@ import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
 import { fetchMonthlyTransactions, fetchTransactionYearMonths, selectMonthlyTransactions } from "../store/monthly-transaction-slice.store";
 import { fetchTransactionsSummary } from "../store/transactions-summary-slice.store";
 import { selectPreferredCurrency } from "../store/user-slice.store";
+
+type MyFormValues = { yearMonth: string };
 
 /**
  * Dashboard page component
@@ -36,13 +38,16 @@ export default function Dashboard() {
   const preferredCurrency = useAppSelector(selectPreferredCurrency);
   const { yearMonths, transactions, totalIncome, totalExpense, status } = useAppSelector(selectMonthlyTransactions);
 
-  const { control, watch, setValue } = useForm({
+  const { control, setValue } = useForm<MyFormValues>({
     defaultValues: {
       yearMonth: "",
     },
   });
 
-  const selectedYearMonth = watch("yearMonth");
+  const selectedYearMonth = useWatch({
+    control,
+    name: "yearMonth",
+  });
 
   // Auto-select latest month
   useEffect(() => {
@@ -50,7 +55,7 @@ export default function Dashboard() {
       const { year, month } = yearMonths[0];
       setValue("yearMonth", `${year}-${month}`);
     }
-  }, [yearMonths]);
+  }, [yearMonths, setValue]);
 
   // Fetch transactions on change
   useEffect(() => {
@@ -59,7 +64,7 @@ export default function Dashboard() {
     const [year, month] = selectedYearMonth.split("-").map(Number);
 
     dispatch(fetchMonthlyTransactions({ year, month }));
-  }, [selectedYearMonth]);
+  }, [selectedYearMonth, dispatch]);
 
   useEffect(() => {
     dispatch(fetchTransactionsSummary({}));
@@ -92,7 +97,7 @@ export default function Dashboard() {
         </div>
       </Box>
 
-      <MonthSelector control={control} months={yearMonths} />
+      <MonthSelector<MyFormValues> control={control} months={yearMonths} />
 
       {status === "loading" && <LinearProgress />}
 

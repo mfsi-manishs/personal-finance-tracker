@@ -6,14 +6,14 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import { Controller, type Control } from "react-hook-form";
+import { Controller, type Control, type FieldValues, type Path } from "react-hook-form";
 
 /**
  * @interface MonthSelectorProps
  * @description Month selector props
  */
-interface MonthSelectorProps {
-  control: Control<any>;
+interface MonthSelectorProps<T extends FieldValues = FieldValues> {
+  control: Control<T>;
   months: Array<{ year: number; month: number }>;
 }
 
@@ -25,13 +25,13 @@ interface MonthSelectorProps {
  * @param {months} List of months to display in the select
  * @returns {JSX.Element} The rendered component
  */
-export const MonthSelector = ({ control, months }: MonthSelectorProps) => {
+export const MonthSelector = <T extends FieldValues>({ control, months }: MonthSelectorProps<T>) => {
   return (
     <FormControl fullWidth size="small">
       <InputLabel>{t("common.month")}</InputLabel>
 
       <Controller
-        name="yearMonth"
+        name={"yearMonth" as Path<T>}
         control={control}
         render={({ field }) => (
           <Select {...field} label="Month">
