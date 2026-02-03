@@ -5,11 +5,9 @@
 
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from "chart.js";
-import { useEffect } from "react";
-import { Line } from "react-chartjs-2";
-import { useAppDispatch, useAppSelector } from "../hooks/use-app.hook";
-import { fetchMonthlyCategorySummaries, selectAllMonthlyCategorySummaries } from "../store/monthly-category-summary-slice.store";
 import { t } from "i18next";
+import { Line } from "react-chartjs-2";
+import type { MonthlyCategoryTrendsProps } from "../pages/reports.page";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -19,18 +17,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
  * The chart displays the category-wise expense amounts for each month.
  * @returns {JSX.Element} The rendered component
  */
-export default function MonthlyCategoryTrends() {
-  const dispatch = useAppDispatch();
-  const summaries = useAppSelector(selectAllMonthlyCategorySummaries);
-  const status = useAppSelector((state) => state.monthlyCategorySummary.status);
-
-  useEffect(() => {
-    dispatch(fetchMonthlyCategorySummaries());
-  }, [dispatch]);
-
+export default function MonthlyCategoryTrends({ summaries, currency, status }: MonthlyCategoryTrendsProps) {
   // Collect unique categories across months
   const categories = Array.from(new Set(summaries.flatMap((m) => m.transactions.map((t) => t.categoryName))));
 
+  // Create labels for each month
   const labels = summaries.map((m) => m.month);
 
   // Create datasets for each category from the above unique categories for each month
@@ -57,6 +48,20 @@ export default function MonthlyCategoryTrends() {
       title: {
         display: true,
         text: t("report.title"),
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: t("report.yearMonth"), // X-axis label
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: `${t("common.amount")} (${currency})`, // Y-axis label
+        },
       },
     },
   };

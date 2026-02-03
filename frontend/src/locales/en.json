@@ -60,6 +60,8 @@
   },
   "report": {
     "error": "Failed to load data",
-    "title": "Monthly Category-wise Spending Trends"
+    "title": "Monthly Category-wise Spending Trends",
+    "pieChartTitle": "Monthly Category-wise Spending Pie Chart",
+    "yearMonth": "Year-Month"
   }
 }

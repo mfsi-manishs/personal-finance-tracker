@@ -3,6 +3,7 @@
  * @fileoverview This file contains the app
  */
 
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { DashboardLayout } from "./components/common/dashboard-layout.component";
 import { LoadingOverlay } from "./components/common/loading-overlay.component";
@@ -12,9 +13,11 @@ import ProtectedRoute from "./components/protected-route.component";
 import { SIDE_NAVBAR_ITEMS } from "./constants/side-navbar-items.constant";
 import { useAuthCheck } from "./hooks/use-auth-check.hook";
 import Dashboard from "./pages/dashboard.page";
-import Reports from "./pages/reports.page";
 import TransactionCategory from "./pages/transaction-category.page";
-import TransactionsPage from "./pages/transaction.page";
+
+// Lazy load pages
+const Reports = lazy(() => import("./pages/reports.page"));
+const TransactionsPage = lazy(() => import("./pages/transaction.page"));
 
 /**
  * Renders the login form if there is no token or the dashboard if there is a token.
@@ -39,9 +42,23 @@ function App() {
           }>
           {/* All pages inside here will have the Sidebar and Navbar */}
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route
+            path="/transactions"
+            element={
+              <Suspense fallback={<LoadingOverlay type="fullscreen" />}>
+                <TransactionsPage />
+              </Suspense>
+            }
+          />
           <Route path="/categories" element={<TransactionCategory />} />
-          <Route path="/reports" element={<Reports />} />
+          <Route
+            path="/reports"
+            element={
+              <Suspense fallback={<LoadingOverlay type="fullscreen" />}>
+                <Reports />
+              </Suspense>
+            }
+          />
           {/* <Route path="/profile" element={<Profile />} /> */}
         </Route>
 
